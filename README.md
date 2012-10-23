@@ -66,7 +66,7 @@ Collection.prototype.add = function (model) {};
  *
  * @example
  *    new Collection().filter(function (item) {
- *        return item.attendee.indexOf("me") !== -1;
+ *        return item.get('attendee').indexOf("me") !== -1;
  *    });
  * @return {Collection}
  */
