@@ -60,23 +60,22 @@ var Collection = function (items) {
  */
 Collection.prototype.add = function (model) {};
 /**
+ * @param {Function} selector
+ *
+ * @see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/filter
+ *
+ * @example
+ *    new Collection().filter(function (item) {
+ *        return item.attendee.indexOf("me") !== -1;
+ *    });
  * @return {Collection}
  */
-Collection.prototype.find = function (fieldName, fieldValue) {};
+Collection.prototype.filter = function (selector) {};
 /**
  * @return {Collection}
  */
 Collection.prototype.sortBy = function (fieldName) {};
 // Другие необходимые вам поля
-```
-
-Что бы можно было делать так:
-
-```javascript
-new Collection()
-.add(item)
-.find('name', 'value')
-.sortBy('name');
 ```
 
   * На основе Collection вам необходимо создать вашу коллекцию Events и добавить в нее функции, которые вы сделали в домашнем задании
