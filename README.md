@@ -86,6 +86,7 @@ new Collection()
 var Events = function (items) {
     Collection.apply(this, arguments);
 };
+inderit(Events, Collection);
 
 /**
  * @return {Events}
@@ -104,4 +105,17 @@ Events.prototype.findPastEvents = function () {};
  */
 Events.prototype.sortByName = function () {};
 // Другие необходимые вам поля
+```
+
+Все это должно работать как-то так
+
+```javascript
+var allEvents = new Events()
+.add(new Event({"name": "Pewpe", "attendees": ["me"]}))
+.add([new Event, new Event, new Event]);
+
+var allMyFutureEventsOrderedByStar = allEvents
+.findFutureEvents()
+.findMyEvents()
+.sortByStars();
 ```
