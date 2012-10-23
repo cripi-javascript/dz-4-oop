@@ -10,9 +10,21 @@ var Model = function (data) {
 
 };
 
-Model.prototype.set = function (fieldName, fieldValue) {};
-Model.prototype.get = function (fieldName) {};
-Model.prototype.validate = function (fieldName, fieldType) {};
+/**
+ * @param {Object} attributes
+ *
+ * @example
+ *     item.set({title: "March 20", content: "In his eyes she eclipses..."});
+ */
+Model.prototype.set = function (attributes) {};
+/**
+ * @param {String} attribute
+ */
+Model.prototype.get = function (attribute) {};
+/**
+ * @param {Object} attributes
+ */
+Model.prototype.validate = function (attributes) {throw new Error('this is Abstract method')};
 // Другие необходимые вам поля
 ```
 
@@ -24,12 +36,19 @@ var Event = function (data) {
 };
 inherit(Event, Model);
 
-// Event.prototype.
+/**
+ * @param {Object} attributes
+ */
+Model.prototype.validate = function (attributes) {
+    if (attributes.end < attributes.start) {
+        return "can't end before it starts";
+    }
+};
 // Другие необходимые вам поля
 ```
 
   * Cоздать абстрактную коллекцию Collection представляющую из себя набор объектов Model каждый вызов метода Collection
-  должен создавать новую коллекцию, а не изменять текущую
+  **должен создавать новую коллекцию, а не изменять текущую**
 
 ```javascript
 var Collection = function (items) {
