@@ -1,6 +1,0 @@
-[submodule "qunit-1.10.0.js"]
-	path = qunit-1.10.0.js
-	url = git://github.com/ManginAlexander/dz-3-iterators-functions/Task/qunit-1.10.0.js
-[submodule "qunit-1.10.0.css"]
-	path = qunit-1.10.0.css
-	url = git://github.com/ManginAlexander/dz-3-iterators-functions/qunit-1.10.0.css
