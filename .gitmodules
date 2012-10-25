@@ -4,3 +4,6 @@
 [submodule "qunit-1.10.0.css"]
 	path = qunit-1.10.0.css
 	url = git://github.com/ManginAlexander/dz-3-iterators-functions/qunit-1.10.0.css
+[submodule "qunit"]
+	path = qunit
+	url = git://github.com/jquery/qunit.git
