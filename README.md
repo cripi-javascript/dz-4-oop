@@ -39,7 +39,7 @@ inherit(Event, Model);
 /**
  * @param {Object} attributes
  */
-Model.prototype.validate = function (attributes) {
+Event.prototype.validate = function (attributes) {
     if (attributes.end < attributes.start) {
         return "can't end before it starts";
     }
