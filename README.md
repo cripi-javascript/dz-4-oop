@@ -1,26 +1,120 @@
-# Циклы и функции
+# Домашнее задание по лекции JavaScript ООП
 
-Необходимо создать коллекцию событий и функции выборки и сортировки из этой коллекции.
+Пользуясь наработками домашних заданий 2 и 3 необходимо сделать следующее:
 
-  * Создать коллекцию событий из нескольких (20+) случайных элементов "Событие"
-    * Текстовые поля случайны
-    * Поля типа дата разбросаны в интервале -месяц +месяц от текущей
-    * GPS координаты и прочие числовые и перечисляемые поля произвольны
-  * Создать несколько функций воброки и сортировки элементов из коллекции, которые можно "смешивать" между собой
-    * Выбрать прошедшие события
-    * Выбрать события с моим участием (если у вас есть такое поле)
-    * Выбрать предстоящие события
-    * Выбрать события события, которые произойдут через столько-то времени
-    * Функция сортировки элементов коллекции по времнеи убывание/возрастания
-    * Функция сортировки по рейтингу события (если у вас есть такое поле)
-    * ...
-  * Фактически вам необходимо создать функции сортировки и выборки по всем перечисляемым и числовым полям
-  * В итоге вы должы уметь получать такие комбинации
-  "Выбрать все предстоящие события с моим участием отсортированные по рейтигу"
-  или "Выбрать все события, которые произойдут на этой неделе, отсортированые по рейтингу"
-  или "Выбрать ближайшее (по времени) событие без моего участия"
-  и другие связанные с вашими полями
-  * Старайтесь не делать копипаст функций, подмайте как их можно агрегировать (Factory pattern?)
-  * Необходимо выводить результаты выборки в консоль браузера `console.log()`
-  [Как открыть консоль](http://webmasters.stackexchange.com/questions/8525/how-to-open-the-javascript-console-in-different-browsers)
-  * JSDoc, JSLint, UTF-8
+  * Сделать "Абстрактный" конструктор Model представляющий из себя абстрактный объект
+  и имеющий возможность работать с любыми объектами (основа любых объектов)
+
+```javascript
+var Model = function (data) {
+
+};
+
+/**
+ * @param {Object} attributes
+ *
+ * @example
+ *     item.set({title: "March 20", content: "In his eyes she eclipses..."});
+ */
+Model.prototype.set = function (attributes) {};
+/**
+ * @param {String} attribute
+ */
+Model.prototype.get = function (attribute) {};
+/**
+ * @param {Object} attributes
+ */
+Model.prototype.validate = function (attributes) {throw new Error('this is Abstract method')};
+// Другие необходимые вам поля
+```
+
+  * Необходимо унаследовать от Абстракнтого конструктора Model ваш объект Event
+
+```javascript
+var Event = function (data) {
+    Model.apply(this, arguments);
+};
+inherit(Event, Model);
+
+/**
+ * @param {Object} attributes
+ */
+Event.prototype.validate = function (attributes) {
+    if (attributes.end < attributes.start) {
+        return "can't end before it starts";
+    }
+};
+// Другие необходимые вам поля
+```
+
+  * Cоздать абстрактную коллекцию Collection представляющую из себя набор объектов Model каждый вызов метода Collection
+  **должен создавать новую коллекцию, а не изменять текущую**
+
+```javascript
+var Collection = function (items) {
+
+};
+
+/**
+ * @return {Collection}
+ */
+Collection.prototype.add = function (model) {};
+/**
+ * @param {Function} selector
+ *
+ * @see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/filter
+ *
+ * @example
+ *    new Collection().filter(function (item) {
+ *        return item.get('attendee').indexOf("me") !== -1;
+ *    });
+ * @return {Collection}
+ */
+Collection.prototype.filter = function (selector) {};
+/**
+ * @return {Collection}
+ */
+Collection.prototype.sortBy = function (fieldName) {};
+// Другие необходимые вам поля
+```
+
+  * На основе Collection вам необходимо создать вашу коллекцию Events и добавить в нее функции, которые вы сделали в домашнем задании
+  3 лекции. Каждый вызов метода Events **должен создавать новую коллекцию, а не изменять текущую**
+
+```javascript
+var Events = function (items) {
+    Collection.apply(this, arguments);
+};
+inderit(Events, Collection);
+
+/**
+ * @return {Events}
+ */
+Events.prototype.findOnlyMyEvents = function () {};
+/**
+ * @return {Events}
+ */
+Events.prototype.findFutureEvents = function () {};
+/**
+ * @return {Events}
+ */
+Events.prototype.findPastEvents = function () {};
+/**
+ * @return {Events}
+ */
+Events.prototype.sortByName = function () {};
+// Другие необходимые вам поля
+```
+
+Все это должно работать как-то так
+
+```javascript
+var allEvents = new Events()
+.add(new Event({"name": "Pewpe", "attendees": ["me"]}))
+.add([new Event, new Event, new Event]);
+
+var allMyFutureEventsOrderedByStar = allEvents
+.findFutureEvents()
+.findMyEvents()
+.sortByStars();
+```
