@@ -1,6 +1,6 @@
-﻿test('Leave Mark', function () {
+test('Leave Mark', function () {
     "use strict";
-    var testEvent = Event(new Date(1), new Date(2), "Earth");
+    var testEvent = new Event({});
     testEvent.leaveMark("No number");
     equal(testEvent.stars, 0, 'Если звездочку передали в виде не числа, то 0');
     var undefinedVar;

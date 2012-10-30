@@ -1,10 +1,7 @@
-﻿/**
+/**
  * Creates an instance of Event.
  *
- * @param {start} - is start event
- * @param {end} - is end event
- * @param {location} - is location event
- * @param {location} - is id
+ * @param {data} - is start event
  * @field {start} - is start event
  * @field {end} - is end event
  * @field {id} - is id
@@ -15,62 +12,78 @@
  * @method {setLocation} - is setter for location's field
  * @method {leaveMark} - is setter for stars's field (0,1,2,3,4,5 - допустимые значения)
  */
-function Event(start, end, location, id) {
+
+function Event(data) {
     "use strict";
-    var tempDate;
-    if (!Event.dateValidator(start)) {
-        start = new Date();
+    Model.call(this,data);
+    this.validate();
+}
+
+
+(function () { 
+    var inherits = function (Constructor, SuperConstructor) {
+    var tempConstructor = function () {}; 
+    tempConstructor.prototype = SuperConstructor.prototype;
+    Constructor.prototype = new tempConstructor();
     }
-    if (!Event.dateValidator(end)) {
-        end = start;
+
+    inherits(Event, Model);
+    
+    Event.prototype.dateValidator = function (date) {
+        if (Object.prototype.toString.call(date) === "[object Date]") {
+            if (!isNaN(date.getTime())) {
+                return true;
+            }
+        }
+        return false;
     }
-    if (start.getTime() > end.getTime()) {
-        tempDate = end;
-        end = start;
-        start = tempDate;
-    }
-    location = location || {
-        "gps": {x: 0, y: 0},
-        "nameLocation": "Earth"
-    };
-    id = id || Math.random();
-    return {
-        "id": id,
-        "start": start,
-        "end": end,
-        "location": location,
-        "participants": [],
-        "stars": 0,
-        "cost": 0,
-        "parties": [],
-        "setLocation": function (gps, name) {
-            if (typeof gps !== "undefined"  && typeof gps.x !== "undefined" && typeof gps.y !== "undefined" && typeof name === "string") {
-                this.location.gps = gps;
-                this.location.nameLocation = name;
-            } else {
-                this.location = {
-                    "gps" : {"x": 0, "y": 0},
-                    "nameLocation" : "Earth"
-                };
-            }
-        },
-        "leaveMark": function (stars) {
-            if (isNaN(parseFloat(stars)) || !isFinite(stars) || stars < 0) {
-                stars = 0;
-            }
-            if (stars > 5) {
-                stars = 5;
-            }
-            stars = (stars - (stars % 1)); //обрезаем дробную часть
-            this.stars = stars;
+    Event.prototype.setLocation = function (gps, name) {
+        if (typeof gps !== "undefined"  && typeof gps.x !== "undefined" && typeof gps.y !== "undefined" && typeof name === "string") {
+            this.location.gps = gps;
+            this.location.nameLocation = name;
+        } else {
+            this.location = {
+                "gps" : {"x": 0, "y": 0},
+                "nameLocation" : "Earth"
+            };
         }
     };
-}
-Event.dateValidator = function (date) {
-    if (Object.prototype.toString.call(date) === "[object Date]") {
-        if (!isNaN(date.getTime())) {
-            return true;
+    Event.prototype.leaveMark = function (stars) {
+        if (isNaN(parseFloat(stars)) || !isFinite(stars) || stars < 0) {
+            stars = 0;
         }
-    }
-    return false;
+        if (stars > 5) {
+            stars = 5;
+        }
+        stars = (stars - (stars % 1)); //обрезаем дробную часть
+        this.stars = stars;
+    };
+    Event.prototype.validate = function () {
+        var tempDate;
+        this.id = this.id || Math.random();
+        this.location = this.location || {
+            "gps": {x: 0, y: 0},
+            "nameLocation": "Earth"
+        }; 
+        this.location = this.location || [];
+        this.stars = this.stars || 0;
+        this.cost = this.cost || 0;
+        this.parties =this.parties || [];
+        
+        if (!this.dateValidator(this.start)) {
+            this.start = new Date();
+        }
+        if (!this.dateValidator(this.end)) {
+            this.end = this.start;
+        }
+        if (this.end < this.start) {
+            tempDate = this.start;
+            this.start = this.end;
+            this.end = tempDate;
+        }
+        this.setLocation(this.location);
+        this.leaveMark(this.stars);
 }
+}());
+
+
