@@ -14,76 +14,76 @@
  */
 
 function Event(data) {
-    "use strict";
+    "use strict";    
+    this.id = Math.random();
+    this.location = {
+        "gps": {x: 0, y: 0},
+        "nameLocation": "Earth"
+    }; 
+    this.stars =  0;
+    this.cost =  0;
+    this.parties = [];
     Model.call(this,data);
-    this.validate();
+    if (!this.validate(this)) {
+        throw new Error("Объект не прошел валидацию");
+    }
+    this.setLocation(this.location);
+    this.leaveMark(this.stars);
 }
 
+Event.prototype = Object.create(Model.prototype, {
+    constructor: {
+    value: Event,
+    enumerable: false,
+    writable: true,
+    configurable: true
+}});
 
-(function () { 
-    var inherits = function (Constructor, SuperConstructor) {
-    var tempConstructor = function () {}; 
-    tempConstructor.prototype = SuperConstructor.prototype;
-    Constructor.prototype = new tempConstructor();
+Event.prototype.dateValidator = function (date) {
+    if (Object.prototype.toString.call(date) === "[object Date]") {
+        if (!isNaN(date.getTime())) {
+            return true;
+        }
     }
-
-    inherits(Event, Model);
-    
-    Event.prototype.dateValidator = function (date) {
-        if (Object.prototype.toString.call(date) === "[object Date]") {
-            if (!isNaN(date.getTime())) {
-                return true;
-            }
-        }
-        return false;
-    }
-    Event.prototype.setLocation = function (gps, name) {
-        if (typeof gps !== "undefined"  && typeof gps.x !== "undefined" && typeof gps.y !== "undefined" && typeof name === "string") {
-            this.location.gps = gps;
-            this.location.nameLocation = name;
-        } else {
-            this.location = {
-                "gps" : {"x": 0, "y": 0},
-                "nameLocation" : "Earth"
-            };
-        }
-    };
-    Event.prototype.leaveMark = function (stars) {
-        if (isNaN(parseFloat(stars)) || !isFinite(stars) || stars < 0) {
-            stars = 0;
-        }
-        if (stars > 5) {
-            stars = 5;
-        }
-        stars = (stars - (stars % 1)); //обрезаем дробную часть
-        this.stars = stars;
-    };
-    Event.prototype.validate = function () {
-        var tempDate;
-        this.id = this.id || Math.random();
-        this.location = this.location || {
-            "gps": {x: 0, y: 0},
-            "nameLocation": "Earth"
-        }; 
-        this.location = this.location || [];
-        this.stars = this.stars || 0;
-        this.cost = this.cost || 0;
-        this.parties =this.parties || [];
-        
-        if (!this.dateValidator(this.start)) {
-            this.start = new Date();
-        }
-        if (!this.dateValidator(this.end)) {
-            this.end = this.start;
-        }
-        if (this.end < this.start) {
-            tempDate = this.start;
-            this.start = this.end;
-            this.end = tempDate;
-        }
-        this.setLocation(this.location);
-        this.leaveMark(this.stars);
+    return false;
 }
-}());
+Event.prototype.setLocation = function (gps, name) {
+    if (typeof gps !== "undefined"  && typeof gps.x !== "undefined" && typeof gps.y !== "undefined" && typeof name === "string") {
+        this.location.gps = gps;
+        this.location.nameLocation = name;
+    } else {
+        this.location = {
+            "gps" : {"x": 0, "y": 0},
+            "nameLocation" : "Earth"
+        };
+    }
+};
+Event.prototype.leaveMark = function (stars) {
+    if (isNaN(parseFloat(stars)) || !isFinite(stars) || stars < 0) {
+        stars = 0;
+    }
+    if (stars > 5) {
+        stars = 5;
+    }
+    stars = (stars - (stars % 1)); //обрезаем дробную часть
+    this.stars = stars;
+};
+Event.prototype.validate = function (event) {
+    if (event.cost < 0) {
+        throw new Error("Цена за вход не может быть отрицательной");
+    }
+    if (!Array.isArray(event.parties)) {
+        throw new Error("Участники - это массив");
+    }
+    if (event.parties.some(function(party) {
+        return !party.name;
+    })) {
+        throw new Error("У одного из участников нет поля <ИМЯ>");
+    }
+    if (event.end < event.start) {
+        throw new Error("Даты начала и конца перепутаны");
+    }
+    return true
+}
 
 

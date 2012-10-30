@@ -19,6 +19,7 @@ Model.prototype.set = function (attributes) {
             }
         }
     }
+    
 };
 /**
  * @param {String} attribute
