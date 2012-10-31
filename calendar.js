@@ -8,37 +8,44 @@
 
 var slice = Array.prototype.slice;
 function partial(fn) {
+    'use strict';
     var args = slice.call(arguments, 1);
     return function () {
         return fn.apply(this, args.concat(slice.call(arguments)));
     };
 }
-function isMore(a,b) {
+function isMore(a, b) {
+    'use strict';
     return a > b;
 }
-function isLess(a,b) {
+function isLess(a, b) {
+    'use strict';
     return a < b;
 }
-function isEqual(a,b) {
+function isEqual(a, b) {
+    'use strict';
     return a === b;
 }
-function getRandomInt (min, max) {
+function getRandomInt(min, max) {
+    'use strict';
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
-var nowDate = new Date
-var MoreNow = partial(isMore,nowDate);
-var LessNow = partial(isLess,nowDate);
+var nowDate = new Date();
+var isMoreNow = partial(isMore, nowDate);
+var isLessNow = partial(isLess, nowDate);
 
-function searchAnArray(array,str) {
-    var Equal = partial(isEqual,str);
+function searchAnArray(array, str) {
+    'use strict';
+    var Equal = partial(isEqual, str);
     return array.reduce(
         function (sum, x) {
-            return sum+Equal(x)
+            return sum + new Equal(x);
 
-        },0
-    )
+        },
+        0
+    );
 }
 
 /**
@@ -60,8 +67,8 @@ function searchAnArray(array,str) {
  */
 var EventModel = Backbone.Model.extend({
     defaults: {
-        startEvent: new Date,
-        endEvent: new Date,
+        startEvent: new Date(),
+        endEvent: new Date(),
         name:  "Событие",
         description: "",
         tegs: undefined,
@@ -72,123 +79,127 @@ var EventModel = Backbone.Model.extend({
 //        reminderTimeBeforeEvent: this.get(startEvent),
         friends:  undefined
     },
-    initialize: function() {
+    initialize: function () {
+        'use strict';
         this.bind("error", function (Error) {
             console.log(Error);
-        })
+        });
     },
-    errorList:function(){
-        console.log(1);
-    },
-    validate: function(attrs){
-        var Error = {};
-        function isData(time,attr){
-            if ('string' === typeof(time)){
-                var timeToData = new Date(time)
-                if ('Invalid Date' === timeToData){
-                    Error[attr]= "не верный формат даты";
-                    return timeToData
+    validate: function (attrs) {
+        'use strict';
+        var Error = {}, regColorcode = /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/;
+        function isData(time, attr) {
+            if ('string' === typeof (time)) {
+                var timeToData = new Date(time);
+                if ('Invalid Date' === timeToData) {
+                    Error[attr] = "не верный формат даты";
+                    return timeToData;
                 }
-            } else{
-                return time
+            } else {
+                return time;
             }
         }
-        attrs.startEvent = isData(attrs.startEvent,"startEvent");
-        attrs.endEvent = isData(attrs.endEvent,"endEvent");
+        attrs.startEvent = isData(attrs.startEvent, "startEvent");
+        attrs.endEvent = isData(attrs.endEvent, "endEvent");
 
-        var regColorcode = /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/;
         if (regColorcode.test(attrs.color) !== false) {
             attrs.color = "";
             Error.color = "все плохо это не цвет";
         }
 
-        if(!_.isEmpty(Error)) {
-            return Error
-        } else return false;
+        if (!_.isEmpty(Error)) {
+            return Error;
+        } else {
+            return false;
+        }
     }
 });
 
 var EventList = Backbone.Collection.extend({
     model: EventModel,
-    initialize:function () {
+    initialize: function () {
+        'use strict';
         this.bind("all", function (nemeEvent) {
             console.log(nemeEvent);
-        })
+        });
         this.bind("cheng", function () {
             console.log(this);
-        })
-    },
-    evemts:{
-        "add": function(model, collection) {
-            console.log(collection);
-        }
+        });
     },
     endEvintListNow: function () {
+        'use strict';
         return new EventList(this.filter(function (item) {
-            return LessNow(item.get("endEvent"))
-        }))
+            return isLessNow(item.get("endEvent"));
+        }));
     },
-    startEventMoreNow: function () {
+    startEventisMoreNow: function () {
+        'use strict';
         return new EventList(this.filter(function (item) {
-            return MoreNow(item.get("startEvent"))
-        }))
+            return isMoreNow(item.get("startEvent"));
+        }));
     },
     evinteNow: function () {
+        'use strict';
         return new EventList(this.filter(function (item) {
-                return LessNow(item.get("startEvent"))
-            }
-        ).filter(function (item) {
-                return MoreNow(item.get("endEvent"))
-            }
-        ))
+            return isLessNow(item.get("startEvent"));
+        }).filter(function (item) {
+            return isMoreNow(item.get("endEvent"));
+        }));
     },
-    withFriends:function (nemeFriends) {
+    withFriends: function (nemeFriends) {
+        'use strict';
         return new EventList(this.filter(function (item) {
-            return searchAnArray(item.get("friends"),nemeFriends)
-        }))
+            return searchAnArray(item.get("friends"), nemeFriends);
+        }));
     },
     withAlex_eho: function () {
+        'use strict';
         return new EventList(this.filter(function (item) {
-            return searchAnArray(item.get("friends"),"http://vk.com/alex_eho")
-        }))
+            return searchAnArray(item.get("friends"), "http://vk.com/alex_eho");
+        }));
     },
     atOneTime:  function () {
+        'use strict';
         return new EventList(this.map(
             function (item, index, array) {
 
-                var MoreThisItemStart = partial(isMore,item.get("startEvent"));
-                var LessThisItemEnd = partial(isLess,item.get("endEvent"));
-                var EqualThisItemEnd = partial(isEqual,item.get("endEvent"));
+                var MoreThisItemStart = partial(isMore, item.get("startEvent"));
+                var LessThisItemEnd = partial(isLess, item.get("endEvent"));
+                var EqualThisItemEnd = partial(isEqual, item.get("endEvent"));
                 return array
                     .map(function (el, index, array) {
-                        if (MoreThisItemStart(el.get("startEvent"))){
-                            return el
+                        if (new MoreThisItemStart(el.get("startEvent"))) {
+                            return el;
                         }
                     })
                     .map(function (el) {
-                        if (!el) return
-                        if (LessThisItemEnd(el.get("endEvent"))){
-                            return el
+                        if (!el) {
+                            return
+                        };
+                        if (new  LessThisItemEnd(el.get("endEvent"))) {
+                            return el;
                         }
                     });
             }
-        ))
+        ));
     },
-    sortStartEvinte:function () {
-        return new EventList(this.sort(function (a,b) {
-            return 0+isMore( a.get("startEvent").getTime(), b.get("startEvent").getTime())
+    sortStartEvinte: function () {
+        'use strict';
+        return new EventList(this.sort(function (a, b) {
+            return 0 + isMore(a.get("startEvent").getTime(), b.get("startEvent").getTime());
 
-        }))
+        }));
     }
 });
 
-eventList = new EventList;
+var eventList = new EventList();
 function generTestCollection() {
+    "use strict";
     for (var i = 0; i < 30; i++) {
         var eventOptions = {};
 
         function rendomTime () {
-            var newTime = new Date;
+            var newTime = new Date();
             newTime.setMonth(newTime.getMonth() - getRandomInt(0,1));
             newTime.setDate(getRandomInt(1,31));
             newTime.setHours(getRandomInt(0,24));
@@ -202,28 +213,28 @@ function generTestCollection() {
 
         function giberArow() {
             var tegs = [];
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 tegs.push("Программирование")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 tegs.push("Веб-разработка")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 tegs.push("Информационная безопасность")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 tegs.push("JavaScript")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 tegs.push("Фриланс")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 tegs.push("DIY или Сделай Сам")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 tegs.push("Android")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 tegs.push("Linux")
             }
             return tegs.toString();
@@ -234,19 +245,19 @@ function generTestCollection() {
 
         function giberColor() {
             var numberColor = getRandomInt(0,4);
-            if (numberColor === 0){
+            if (numberColor === 0) {
                 return "#fff"
             }
-            if (numberColor === 1){
+            if (numberColor === 1) {
                 return "#F75050"
             }
-            if (numberColor === 2){
+            if (numberColor === 2) {
                 return "#5566E7"
             }
-            if (numberColor === 3){
+            if (numberColor === 3) {
                 return "#4DC743"
             }
-            if (numberColor === 4){
+            if (numberColor === 4) {
                 return
             }
         }
@@ -256,25 +267,25 @@ function generTestCollection() {
 
         function giberFriends() {
             var trgs = [];
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 trgs.push("http://vk.com/alex_eho")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 trgs.push("http://vk.com/id29476786")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 trgs.push("http://vk.com/ostornfirst")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 trgs.push("http://vk.com/chbgp")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 trgs.push("http://vk.com/id20061985")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 trgs.push("http://vk.com/id126316413")
             }
-            if (getRandomInt(0,1)){
+            if (getRandomInt(0,1)) {
                 trgs.push("http://vk.com/id31116305")
             }
             return trgs
