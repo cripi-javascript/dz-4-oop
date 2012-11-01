@@ -1,4 +1,5 @@
 ﻿/*global alert: true*/
+/*global Model: true*/
 
 function isDate(date) {
     "use strict";
@@ -13,17 +14,22 @@ function isDate(date) {
 }
 
 function inherits(constructor, superconstructor) {
-    var func = function() {};
+    "use strict";
 
-    func.prototype = superconstructor.prototype;
-    constructor.prototype = new func();
+    var Func = function () { };
+
+    Func.prototype = superconstructor.prototype;
+    constructor.prototype = new Func();
 }
 
 var Event = function (data) {
-    Model.apply(this, arguments);
-    };
+    "use strict";
 
-    inherits(Event, Model);
+    Model.apply(this, arguments);
+};
+
+inherits(Event, Model);
+
 /**
  * Возвращает объект event, либо undefined, если в объекте  отсутвуют обязательные поля
  * eventObject{
@@ -55,7 +61,7 @@ Event.prototype.validate = function () {
     this.raiting = this.raiting || 0;
 
     if (!isDate(this.get("start"))) {
-       throw new Error('Field "start" must be Date format');
+        throw new Error('Field "start" must be Date format');
     }
 
     if (!isDate(this.end)) {
@@ -75,4 +81,4 @@ Event.prototype.validate = function () {
         "description": this.description || "(отсутствует)",
         "raiting": this.raiting
     };
-}
+};

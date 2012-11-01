@@ -1,17 +1,18 @@
-﻿var Collection = function(items) {
-    this.items = [];
+﻿var Collection = function (items) {
+    "use strict";
 
-    for (var key in items) {
+    this.items = [];
+    var key;
+
+    for (key in items) {
         if (items.hasOwnProperty(key)) {
             this.items.push(items[key]);
         }
     }
-}
+};
 
-/**
- * @return {Collection}
- */
 Collection.prototype.add = function (model) {
+    "use strict";
 
     var temp = new Collection(this.items);
     temp.items.push(model);
@@ -30,6 +31,8 @@ Collection.prototype.add = function (model) {
  * @return {Collection}
  */
 Collection.prototype.filter = function (selector) {
+    "use strict";
+
     if (typeof selector !== "function") {
         throw new Error('Argument must be function');
     }
@@ -41,6 +44,8 @@ Collection.prototype.filter = function (selector) {
  * @return {Collection}
  */
 Collection.prototype.sort = function (selector) {
+    "use strict";
+
     if (typeof selector !== "function") {
         throw new Error('Argument must be function');
     }

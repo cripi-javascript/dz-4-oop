@@ -1,50 +1,49 @@
-﻿test("Create object Collection", function() {
+﻿test("Create object Collection", function () {
     "use strict";
 
     var result = new Collection(examples);
 
-    ok(result.items[0].name == examples[0].name, "Passed!" );
+    ok(result.items[0].name == examples[0].name, "Passed!");
 });
 
-test("Testing for creating new Collection in constructor", function() {
+test("Testing for creating new Collection in constructor", function () {
     "use strict";
 
     var result = new Collection(examples);
     result.items.pop();
 
-    ok(result.items.length != examples.length, "Passed!" );
+    ok(result.items.length !== examples.length, "Passed!");
 });
 
-test("Add func in Collection", function() {
+test("Add func in Collection", function () {
     "use strict";
 
-    var collection = new Collection(examples);
-    var element = {title: "March 20", content: "In his eyes she eclipses..."};
+    var collection = new Collection(examples),
+        element = {title: "March 20", content: "In his eyes she eclipses..."},
+        result = collection.add(element);
 
-    var result = collection.add(element);
     examples.push(element);
 
-    deepEqual( result.items, examples, "Two objects can be the same in value" );
+    deepEqual(result.items, examples, "Two objects can be the same in value");
 });
 
-test("Test Collection", function() {
+test("Test Collection", function () {
     "use strict";
 
-    var collection = new Collection();
-    var element ={title: "March 20", content: "In his eyes she eclipses..."};
+    var collection = new Collection(),
+        element = {title: "March 20", content: "In his eyes she eclipses..."},
+        result = collection.add(element);
 
-    var result = collection.add(element);
-
-    deepEqual( result.items, [element], "Two objects can be the same in value" );
+    deepEqual(result.items, [element], "Two objects can be the same in value");
 });
 
-test("Filter func in Collection", function() {
+test("Filter func in Collection", function () {
     "use strict";
 
-    var collection = new Collection(examples);
+    var collection = new Collection(examples),
+        result = collection.filter(function (item) {
+            return item.name === "День зимы";
+        });
 
-    var result = collection.filter(function (item) {
-        return item.name == "День зимы"});
-
-    ok(result.items.length != examples.length, "Passed" );
+    ok(result.items.length !== examples.length, "Passed");
 });

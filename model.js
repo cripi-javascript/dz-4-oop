@@ -6,12 +6,17 @@
  *     item.set({title: "March 20", content: "In his eyes she eclipses..."});
  */
 var Model = function (data) {
-    for (var key in data) {
+    "use strict";
+
+    var key;
+
+    for (key in data) {
         if (data.hasOwnProperty(key)) {
             this[key] = data[key];
         }
     }
 };
+
 
 /**
  * Сеттер - устанавливает аттрибуты и значения атрибутов, в соответсвии с принятым в качестве параметра объектом
@@ -21,7 +26,11 @@ var Model = function (data) {
  *     item.set({title: "March 20", content: "In his eyes she eclipses..."});
  */
 Model.prototype.set = function (attributes) {
-    for (var key in attributes) {
+    "use strict";
+
+    var key;
+
+    for (key in attributes) {
         if (attributes.hasOwnProperty(key)) {
             this[key] = attributes[key];
         }
@@ -33,12 +42,19 @@ Model.prototype.set = function (attributes) {
  * @param {Object} attributes
  */
 Model.prototype.get = function (attribute) {
-    if (this.hasOwnProperty(attribute))
+    "use strict";
+
+    if (this.hasOwnProperty(attribute)) {
         return this[attribute];
+    }
 
     throw new Error('Not found request field');
 };
 /**
  * @param {Object} attributes
  */
-Model.prototype.validate = function (attributes) {throw new Error('this is Abstract method')};
+Model.prototype.validate = function (attributes) {
+    "use strict";
+
+    throw new Error('this is Abstract method');
+};
