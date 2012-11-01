@@ -1,4 +1,4 @@
-﻿var collection = [
+﻿var examples = [
     { name: "Пара по веб-технологиям", start: new Date("2012-10-20 10:00:00"), end: new Date("2012-10-20 12:50:00"), location: "5 этаж", remindTime: 10, description: "Взять бумагу и ручку, не брать бук!" },
     { name: "День зимы", start: new Date("2012-10-27 06:00:00"), end: new Date("2012-10-27 12:00:00"), location: "Скандинавия", description: "Кататься ^_^" },
     { name: "День инженера механика", start: new Date("2012-10-29 10:00:00"), end: new Date("2012-10-29 15:00:00"), location: "9 этаж", remindTime: 10 },
