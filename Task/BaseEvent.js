@@ -1,4 +1,6 @@
-﻿/**
+﻿/*global Collection: true*/
+
+/**
  * Shell for "sql" operations with Array Events.
  *
  * @constructor
@@ -16,59 +18,66 @@
  */
 function BaseEvent(events) {
     "use strict";
-    Collection.call(this,events);
+    Collection.call(this, events);
     this.events = events;
 }
 BaseEvent.prototype = Object.create(Collection.prototype, {
     constructor: {
-    value: BaseEvent,
-    enumerable: false,
-    writable: true,
-    configurable: true
-}});
-
-
+        value: BaseEvent,
+        enumerable: false,
+        writable: true,
+        configurable: true
+    }
+});
 //пропущенные, текущие, будущие события 
 BaseEvent.prototype.pastEventBase = function () {
+    "use strict";
     var currentDate = new Date();
     return this.filter(function (event) {
         return event.end.getTime() < currentDate.getTime();
     });
 };
 BaseEvent.prototype.nextEventBase = function () {
+    "use strict";
     var currentDate = new Date();
     return this.filter(function (event) {
         return event.start.getTime() > currentDate.getTime();
     });
 };
 BaseEvent.prototype.nowEventBase = function () {
+    "use strict";
     var currentDate = new Date();
     return this.filter(function (event) {
         return (event.start.getTime() <= currentDate.getTime() && event.end.getTime() >= currentDate.getTime());
-});
+    });
 };
 //событие с участием друга (Друг отношение рефлексивное ^^)
 BaseEvent.prototype.withFriend = function (myFriend) {
+    "use strict";
     return this.filter(function (event) {
         return event.parties.some(function (party) {
             return party.name === myFriend.name;
-        })});
+        });
+    });
 };
 // События через период времени день, неделя, месяц
 BaseEvent.prototype.getEventAfterWeek = function () {
+    "use strict";
     var currentDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
     return this.filter(function (event) {
         return event.start.getTime() > currentDate.getTime();
     });
 };
 BaseEvent.prototype.getEventAfterDay = function () {
+    "use strict";
     var currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
     return this.filter(function (event) {
         return event.start.getTime() > currentDate.getTime();
     });
 };
 BaseEvent.prototype.getEventAfterMonth = function () {
-    var currentDate = new Date()
+    "use strict";
+    var currentDate = new Date();
     if (currentDate.getMonth() === 11) {
         currentDate = new Date(currentDate.getFullYear() + 1, 0, currentDate.getDay());
     } else {
@@ -80,11 +89,13 @@ BaseEvent.prototype.getEventAfterMonth = function () {
 };
 // События за период
 BaseEvent.prototype.getEventFromPeriod = function (fromDate, toDate) {
+    "use strict";
     return this.filter(function (event) {
         return (event.start.getTime() > fromDate.getTime() && event.end.getTime() < toDate.getTime());
     });
 };
 BaseEvent.prototype.sortByStars = function (ascending) {
+    "use strict";
     var comparer = function compare(a, b) {
         if (a.stars > b.stars) {
             return -1;
@@ -97,6 +108,7 @@ BaseEvent.prototype.sortByStars = function (ascending) {
     return this.sortBy(comparer, ascending);
 };
 BaseEvent.prototype.sortByDate = function (ascending) {
+    "use strict";
     var comparer = function compare(a, b) {
         if (a.start.getTime() < b.start.getTime()) {
             return -1;
@@ -108,4 +120,3 @@ BaseEvent.prototype.sortByDate = function (ascending) {
     };
     return this.sortBy(comparer, ascending);
 };
-
