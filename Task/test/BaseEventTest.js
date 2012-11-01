@@ -1,4 +1,4 @@
-﻿/*global module: true*/
+/*global module: true*/
 /*global test: true*/
 /*global ok: true*/
 /*global equal: true*/

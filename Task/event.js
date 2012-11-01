@@ -24,9 +24,7 @@ function Event(data) {
     this.cost =  0;
     this.parties = [];
     Model.call(this,data);
-    if (!this.validate(this)) {
-        throw new Error("Объект не прошел валидацию");
-    }
+    this.validate(this);
     this.setLocation(this.location);
     this.leaveMark(this.stars);
 }
@@ -83,7 +81,6 @@ Event.prototype.validate = function (event) {
     if (event.end < event.start) {
         throw new Error("Даты начала и конца перепутаны");
     }
-    return true
 }
 
 

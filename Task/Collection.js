@@ -9,12 +9,12 @@ Collection = function (otherItems) {
 };
 
 /**
- * @param {Model} 
+ * @param {obj} 
  * @help Создает коллекцию со старыми элементами текущей коллекции + новый элемент. 
  * @return {Collection}
  */
-Collection.prototype.add = function (model) {    
-    var newEvents = [model].concat(this.events);
+Collection.prototype.add = function (obj) {  
+    var newEvents = this.items.concat([obj]);
     return new Collection(newEvents);
 }
 /**
@@ -35,19 +35,19 @@ Collection.prototype.filter = function (selector) {
 /**
  * @return {Collection}
  */
-Collection.prototype.sortBy = function (comparator, isDownToUp) {    
-    var newItems = [].concat(this.events);
+Collection.prototype.sortBy = function (comparator, isInvert) {    
+    var newItems = [].concat(this.items);
     if (newItems.length == 0) {
         return [];
     }
     if (comparator) {
-        if (isDownToUp) {
-            var tempComparator = function(a, b) {
+        if (isInvert) {
+            newItems.sort(function(a, b) {
                 return -1*comparator(a, b)
-            }
-            comparator = tempComparator;
+            });            
+        } else {
+            newItems.sort(comparator);
         }
-        newItems.sort(comparator);
     }
     else {
         newItems.sort();

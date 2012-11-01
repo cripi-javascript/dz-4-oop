@@ -1,4 +1,4 @@
-var Model = function (data) {
+﻿var Model = function (data) {
     var nameField;
     for(nameField in data) {       
             this[nameField] = data[nameField];       

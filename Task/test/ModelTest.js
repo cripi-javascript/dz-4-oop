@@ -1,4 +1,4 @@
-﻿module("Create model")
+module("Create model")
 test('Проверка конструктора клонирования', function () {
     "use strict";    
     var model = new Model(new TestObject(1));
@@ -26,7 +26,7 @@ test('Проверка метода set()', function () {
 
 function TestObject (number) {
         this.myNumber = number;
-    };
+    }
 TestObject.prototype.commonNumber = 20;
 
 
