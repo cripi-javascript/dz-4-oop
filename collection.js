@@ -12,8 +12,10 @@
  * @return {Collection}
  */
 Collection.prototype.add = function (model) {
-    this.items.push(model);
-    return this.items;
+
+    var temp = new Collection(this.items);
+    temp.items.push(model);
+    return temp;
 };
 
 /**
@@ -38,5 +40,10 @@ Collection.prototype.filter = function (selector) {
 /**
  * @return {Collection}
  */
-//Collection.prototype.sortBy = function (fieldName) {};
-// Другие необходимые вам поля
+Collection.prototype.sort = function (selector) {
+    if (typeof selector !== "function") {
+        throw new Error('Argument must be function');
+    }
+
+    return new Collection(this.items.sort(selector));
+};

@@ -18,10 +18,10 @@ test("Testing for creating new Collection in constructor", function() {
 test("Add func in Collection", function() {
     "use strict";
 
-    var result = new Collection(examples);
+    var collection = new Collection(examples);
     var element = {title: "March 20", content: "In his eyes she eclipses..."};
 
-    result.add(element);
+    var result = collection.add(element);
     examples.push(element);
 
     deepEqual( result.items, examples, "Two objects can be the same in value" );
@@ -30,10 +30,10 @@ test("Add func in Collection", function() {
 test("Test Collection", function() {
     "use strict";
 
-    var result = new Collection();
+    var collection = new Collection();
     var element ={title: "March 20", content: "In his eyes she eclipses..."};
 
-    result.add(element);
+    var result = collection.add(element);
 
     deepEqual( result.items, [element], "Two objects can be the same in value" );
 });

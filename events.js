@@ -1,47 +1,74 @@
-﻿/**
+﻿var Events = function (data) {
+    Collection.apply(this, arguments);
+    };
+
+    inherits(Events, Collection);
+
+/**
  * Возвращает прошедшие события, отсортированные по дате начала
  * @param {events} - коллекция объектов типа event
  * @return коллекция объектов типа event
 */
-function Past(events) {
+Events.prototype.past = function() {
     "use strict";
 
-    return events
-           .filter(function (events) {
+    return this.filter(function (events) {
             return events.start < new Date();
            });
 }
 
 /**
  * Возвращает предстоящие события, отсортированные по дате начала
- * @param {events} - коллекция объектов типа event
  * @return коллекция объектов типа event
 */
-function Coming(events) {
+Events.prototype.coming = function() {
     "use strict";
 
-    return events.filter(function (events) {
-                  return events.start > new Date();
-                 });
+    return this.filter(function (events) {
+             return events.start > new Date();
+            });
 }
 
 /**
  * Возвращает события, которые произойдут через опр переиод времени,отсортированные по дате начала
- * @param {events} - коллекция объектов типа event
  * @param {days} - период (в днях) времени
  * @return коллекция объектов типа event
 */
-function ComeThrough(events, days) {
+Events.prototype.comeThrough = function(days) {
     "use strict";
 
     var now = new Date();
     now.setDate(now.getDate() + days);
 
-    return new Coming(events)
-                    .filter(function (events) {
-                     return events.start < now;
-                    });
+    return this.coming()
+               .filter(function (events) {
+                return events.start < now;
+               });
 }
+
+Events.prototype.byEndTime =  function(){
+    "use strict";
+
+    return this.sort(function (a, b) {
+        return a.end - b.end;
+    })
+};
+
+Events.prototype.byRaiting = function(){
+    "use strict";
+
+    return this.sort(function (a, b) {
+        return a.raiting - b.raiting;
+    })
+};
+
+Events.prototype.byStartTime = function(){
+    "use strict";
+
+    return this.sort(function (a, b) {
+        return a.start - b.start;
+    })
+};
 
 /**
  * Возвращает события, отсортированные по дате начала по  возр/убыв 
@@ -51,15 +78,14 @@ function ComeThrough(events, days) {
  * при отсутсвии сортируется по возрастанию.
  * @return коллекция объектов типа event
 */
-function SortByTime(events, isAscending) {
+Events.prototype.sortByTime = function (isAscending) {
     "use strict";
 
     if (isAscending || typeof isAscending === "undefined") {
-        return event
-               .sortByStartTime(events)
+        return this
+               .byStartTime()
     }
-    return events
-            .sortByStartTime(events)
+    return this.byStartTime()
             .reverse();
 }
 
@@ -71,14 +97,16 @@ function SortByTime(events, isAscending) {
  * при отсутсвии сортируется по убыванию.
  * @return коллекция объектов типа event
 */
-function SortByRaiting(events, isAscending) {
+Events.prototype.sortByRaiting = function (isAscending) {
     "use strict";
 
     if (isAscending || typeof isAscending === "undefined") {
-        return event
-               .sortByRaiting(events);
+        return this
+               .byRaiting();
     }
-    return events
-            .sortByRaiting(events)
+    return this
+            .byRaiting()
             .reverse();
 }
+
+
