@@ -1,4 +1,4 @@
-module("Create model")
+﻿module("Create model")
 test('Проверка конструктора клонирования', function () {
     "use strict";    
     var model = new Model(new TestObject(1));

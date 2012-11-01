@@ -1,4 +1,4 @@
-Collection = function (otherItems) {
+﻿Collection = function (otherItems) {
     var item;
     this.items = [];
     for(item in otherItems) {

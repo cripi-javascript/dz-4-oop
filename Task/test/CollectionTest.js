@@ -1,4 +1,4 @@
-module("Конструктор");
+﻿module("Конструктор");
 test("Конструктор", function() {
    "use strict";
    var newCollection = new Collection([1,2,3,4]);

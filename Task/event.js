@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Creates an instance of Event.
  *
  * @param {data} - is start event

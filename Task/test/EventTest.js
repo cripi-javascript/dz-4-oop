@@ -1,4 +1,4 @@
-module("Tests of Event's constructor");
+﻿module("Tests of Event's constructor");
 test('Create event', function () {
     "use strict";
     var dateToString = function (currentTime) {

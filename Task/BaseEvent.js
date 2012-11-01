@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Shell for "sql" operations with Array Events.
  *
  * @constructor
