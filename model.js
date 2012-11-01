@@ -48,7 +48,7 @@ Model.prototype.get = function (attribute) {
         return this[attribute];
     }
 
-    throw new Error('Not found request field');
+    return undefined;
 };
 /**
  * @param {Object} attributes
