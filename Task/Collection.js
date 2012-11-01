@@ -1,4 +1,14 @@
 ﻿/*global Collection: true*/
+
+/**
+ * Creates an instance of Event.
+ *
+ * @param {data} - start elements of collection
+ * @field {items} - elements of collection
+ * @method {add} - add element in current collection and return it
+ * @method {filter} - filter elements of current collection and return it
+ * @method {sortBy} - sort elements of current collection and return it
+ */
 Collection = function (otherItems) {
     "use strict";
     var item;
@@ -9,36 +19,16 @@ Collection = function (otherItems) {
         }
     }
 };
-
-/**
- * @param {obj} 
- * @help Создает коллекцию со старыми элементами текущей коллекции + новый элемент. 
- * @return {Collection}
- */
 Collection.prototype.add = function (obj) {
     "use strict";
     var newEvents = this.items.concat([obj]);
     return new Collection(newEvents);
 };
-/**
- * @param {Function} selector
- *
- * @see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/filter
- *
- * @example
- *    new Collection().filter(function (item) {
- *        return item.get('attendee').indexOf("me") !== -1;
- *    });
- * @return {Collection}
- */
 Collection.prototype.filter = function (selector) {
     "use strict";
     var newItems = this.items.filter(selector);
     return new Collection(newItems);
 };
-/**
- * @return {Collection}
- */
 Collection.prototype.sortBy = function (comparator, isInvert) {
     "use strict";
     var newItems = [].concat(this.items);
@@ -58,4 +48,3 @@ Collection.prototype.sortBy = function (comparator, isInvert) {
     }
     return new Collection(newItems);
 };
-// Другие необходимые вам поля

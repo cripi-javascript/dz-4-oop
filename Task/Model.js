@@ -1,16 +1,20 @@
-﻿var Model = function (data) {
+﻿
+/**
+ * Abstract class for Event
+ *
+ * @param {data} - start elements of collection
+ * @field {items} - elements of collection
+ * @method {get} - get value of field
+ * @method {set} - set attributes
+ * @method {validate} - validate <this>
+ */
+var Model = function (data) {
     "use strict";
     var nameField;
     for (nameField in data) {
         this[nameField] = data[nameField];
     }
 };
-/**
- * @param {Object} attributes
- *
- * @example
- *     item.set({title: "March 20", content: "In his eyes she eclipses..."});
- */
 Model.prototype.set = function (attributes) {
     "use strict";
     var nameAttr;
@@ -22,9 +26,6 @@ Model.prototype.set = function (attributes) {
         }
     }
 };
-/**
- * @param {String} attribute
- */
 Model.prototype.get = function (attribute) {
     "use strict";
     if (typeof attribute !== 'string' || typeof this[attribute] === "undefined") {
@@ -32,10 +33,7 @@ Model.prototype.get = function (attribute) {
     }
     return this[attribute];
 };
-/**
- * @param {Object} attributes
- */
-Model.prototype.validate = function (attributes) {
+Model.prototype.validate = function () {
     "use strict";
     throw new Error('this is Abstract method');
 };

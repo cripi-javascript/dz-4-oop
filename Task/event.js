@@ -2,6 +2,7 @@
 /**
  * Creates an instance of Event.
  *
+ * @prototype {Model}
  * @param {data} - is start event
  * @field {start} - is start event
  * @field {end} - is end event
@@ -11,7 +12,7 @@
  * @field {stars} - is assess the importance of the event
  * @field {cost} - is price for entry
  * @method {setLocation} - is setter for location's field
- * @method {leaveMark} - is setter for stars's field (0,1,2,3,4,5 - допустимые значения)
+ * @method {leaveMark} - is setter for stars's field (0,1,2,3,4,5 - validate value)
  */
 function Event(data) {
     "use strict";

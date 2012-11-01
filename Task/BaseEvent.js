@@ -1,8 +1,8 @@
 ﻿/*global Collection: true*/
 
 /**
- * Shell for "sql" operations with Array Events.
- *
+ * Shell for "sql" operations with Array Events. 
+ * @prototype {Collection}
  * @constructor
  * @method {pastEventBase} - Создает BaseEvent с пропущенными событиями
  * @method {pastEventBase} - Создает BaseEvent с грядущими событиями
