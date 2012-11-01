@@ -11,6 +11,13 @@
     }
 };
 
+/**
+ * Добавляет в коллекцию объект
+ * @param {object} model
+ *
+ * @return {Collection} * @example
+ *
+ */
 Collection.prototype.add = function (model) {
     "use strict";
 
@@ -41,7 +48,11 @@ Collection.prototype.filter = function (selector) {
 };
 
 /**
- * @return {Collection}
+ * Принимает функцию сортировки и сортирует на основе ее
+ * @param {function} selector
+ *
+ * @return {Collection} * @example
+ *
  */
 Collection.prototype.sort = function (selector) {
     "use strict";

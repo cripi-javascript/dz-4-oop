@@ -31,7 +31,7 @@ var Event = function (data) {
 inherits(Event, Model);
 
 /**
- * Возвращает объект event, либо undefined, если в объекте  отсутвуют обязательные поля
+ * Валидирует объект event, либо undefined, если в объекте  отсутвуют обязательные поля
  * eventObject{
  *            name - название события
  *            start  - начало
