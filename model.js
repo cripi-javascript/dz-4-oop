@@ -9,7 +9,7 @@
  * @example
  *     item.set({title: "March 20", content: "In his eyes she eclipses..."});
  */
-var Model = function (data) {
+exports.Model = function (data) {
 
     var key;
 

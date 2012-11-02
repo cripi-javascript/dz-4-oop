@@ -1,7 +1,7 @@
 ﻿(function (exports) {
     "use strict";
 
-var Collection = function (items) {
+exports.Collection = function (items) {
 
     this.items = [];
     var key;
@@ -13,6 +13,8 @@ var Collection = function (items) {
     }
 };
 
+Collection.prototype.constructor = exports.Collection;
+
 /**
  * Добавляет в коллекцию объект
  *
@@ -23,7 +25,7 @@ var Collection = function (items) {
  */
 Collection.prototype.add = function (model) {
 
-    var temp = new Collection(this.items);
+    var temp = new this.constructor(this.items);
     temp.items.push(model);
     return temp;
 };
@@ -45,7 +47,7 @@ Collection.prototype.filter = function (selector) {
         throw new Error('Argument must be function');
     }
 
-    return new Collection(this.items.filter(selector));
+    return new this.constructor(this.items.filter(selector));
 };
 
 /**
@@ -62,6 +64,6 @@ Collection.prototype.sort = function (selector) {
         throw new Error('Argument must be function');
     }
 
-    return new Collection(this.items.sort(selector));
+    return new this.constructor(this.items.sort(selector));
 };
-)(window));
+}(window));

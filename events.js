@@ -1,12 +1,14 @@
 ﻿(function (exports) {
     "use strict";
 
-var Events = function (data) {
+exports.Events = function (data) {
 
     Collection.apply(this, arguments);
 };
 
 inherits(Events, Collection);
+
+Events.prototype.constructor = exports.Events;
 
 /**
  * Возвращает прошедшие события, из items отсортированной по дате начала
@@ -120,3 +122,4 @@ Events.prototype.sortByRaiting = function (isAscending) {
             .byRaiting()
             .reverse();
 };
+}(window));

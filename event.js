@@ -1,4 +1,4 @@
-﻿((function (exports) {
+﻿(function (exports) {
     "use strict";
 
 function isDate(date) {
@@ -12,7 +12,7 @@ function isDate(date) {
     return true;
 }
 
-function inherits(constructor, superconstructor) {
+exports.inherits = function (constructor, superconstructor) {
 
     var Func = function () { };
 
@@ -20,7 +20,7 @@ function inherits(constructor, superconstructor) {
     constructor.prototype = new Func();
 }
 
-var Event = function (data) {
+exports.Event = function (data) {
 
     Model.apply(this, arguments);
 };
