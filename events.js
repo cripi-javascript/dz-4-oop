@@ -1,5 +1,7 @@
-﻿var Events = function (data) {
+﻿(function (exports) {
     "use strict";
+
+var Events = function (data) {
 
     Collection.apply(this, arguments);
 };
@@ -7,12 +9,12 @@
 inherits(Events, Collection);
 
 /**
- * Возвращает прошедшие события, отсортированные по дате начала
+ * Возвращает прошедшие события, из items отсортированной по дате начала
+ *
  * @param {events} - коллекция объектов типа event
- * @return коллекция объектов типа event
+ * @return {Collection} - коллекция объектов типа event
 */
 Events.prototype.past = function () {
-    "use strict";
 
     return this.filter(function (events) {
         return events.start < new Date();
@@ -20,11 +22,12 @@ Events.prototype.past = function () {
 };
 
 /**
- * Возвращает предстоящие события, отсортированные по дате начала
- * @return коллекция объектов типа event
+ * Возвращает предстоящие события,
+ * из items, отсортированной по дате начала
+ *
+ * @return {Collection} - коллекция объектов типа event
 */
 Events.prototype.coming = function () {
-    "use strict";
 
     return this.filter(function (events) {
         return events.start > new Date();
@@ -32,24 +35,27 @@ Events.prototype.coming = function () {
 };
 
 /**
- * Возвращает события, которые произойдут через опр переиод времени,отсортированные по дате начала
- * @param {days} - период (в днях) времени
+ * Возвращает события, которые произойдут через опр период времени,
+ * из items, отсортированной по дате начала
+ *
+ * @param {number} days - период (в днях) времени
+ *
  * @return коллекция объектов типа event
 */
 Events.prototype.comeThrough = function (days) {
-    "use strict";
 
     var now = new Date();
     now.setDate(now.getDate() + days);
 
-    return this.coming()
+    var result = this.coming()
                .filter(function (events) {
             return events.start < now;
         });
+
+    return result;
 };
 
 Events.prototype.byEndTime =  function () {
-    "use strict";
 
     return this.sort(function (a, b) {
         return a.end - b.end;
@@ -57,7 +63,6 @@ Events.prototype.byEndTime =  function () {
 };
 
 Events.prototype.byRaiting = function () {
-    "use strict";
 
     return this.sort(function (a, b) {
         return a.raiting - b.raiting;
@@ -65,7 +70,6 @@ Events.prototype.byRaiting = function () {
 };
 
 Events.prototype.byStartTime = function () {
-    "use strict";
 
     return this.sort(function (a, b) {
         return a.start - b.start;
@@ -73,17 +77,20 @@ Events.prototype.byStartTime = function () {
 };
 
 /**
- * Возвращает события, отсортированные по дате начала по  возр/убыв 
- * от старых к новым / наоборот. По умолчанию сортирует в порядке возрастания
- * @param {events} - коллекция объектов типа event
- * @param {isAscending} - необязательный параметр - указывает порядок сортировки. 
+ * Возвращает события,из items отсортированной по дате начала по  возр/убыв 
+ * от старых обытий к новым / наоборот.
+ * По умолчанию сортирует в порядке возрастания
+ *
+ * @param {bool} isAscending - необязательный параметр - указывает порядок сортировки. 
  * при отсутсвии сортируется по возрастанию.
- * @return коллекция объектов типа event
+ *
+ * @return {Collection}  - Новый объект типа Collection
 */
 Events.prototype.sortByTime = function (isAscending) {
-    "use strict";
 
-    if (isAscending || typeof isAscending === "undefined") {
+    isAscending = isAscending || false;
+
+    if (isAscending) {
         return this
                .byStartTime();
     }
@@ -92,17 +99,20 @@ Events.prototype.sortByTime = function (isAscending) {
 };
 
 /**
- * Возвращает события, отсортированные по рейтингу по  убыв/возрастанию 
- * от с более высоким рейтингом к самому низко приоритетному / наоборот. По умолчанию сортирует в порядке убывания
- * @param {events} - коллекция объектов типа event
- * @param {isAscending} - необязательный параметр - указывает порядок сортировки. 
+ * Возвращает события, из items, отсортированной по рейтингу по  убыв/возрастанию 
+ * от событий с более высоким рейтингом к самому низко приоритетному / наоборот. 
+ * По умолчанию сортирует в порядке убывания
+ *
+ * @param {bool} isAscending - необязательный параметр - указывает порядок сортировки. 
  * при отсутствии сортируется по убыванию.
- * @return коллекция объектов типа event
+ *
+ * @return {COllection} - Новый объект типа Collection
 */
 Events.prototype.sortByRaiting = function (isAscending) {
-    "use strict";
 
-    if (isAscending || typeof isAscending === "undefined") {
+    isAscending = isAscending || false;
+
+    if (isAscending) {
         return this
                .byRaiting();
     }

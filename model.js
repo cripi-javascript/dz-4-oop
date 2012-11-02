@@ -1,12 +1,15 @@
-﻿/**
+﻿(function (exports) {
+    "use strict";
+
+/**
  * Абстрактный конструктор, принимает объект и создает абстрактный объект для работы
+ *
  * @param {Object} attributes
  *
  * @example
  *     item.set({title: "March 20", content: "In his eyes she eclipses..."});
  */
 var Model = function (data) {
-    "use strict";
 
     var key;
 
@@ -20,13 +23,13 @@ var Model = function (data) {
 
 /**
  * Сеттер - устанавливает аттрибуты и значения атрибутов, в соответсвии с принятым в качестве параметра объектом
+ *
  * @param {Object} attributes
  *
  * @example
  *     item.set({title: "March 20", content: "In his eyes she eclipses..."});
  */
 Model.prototype.set = function (attributes) {
-    "use strict";
 
     var key;
 
@@ -39,10 +42,10 @@ Model.prototype.set = function (attributes) {
 
 /**
  * Геттер - возвращает запрашиваемое свойство у объекта
+ *
  * @param {Object} attributes
  */
 Model.prototype.get = function (attribute) {
-    "use strict";
 
     if (this.hasOwnProperty(attribute)) {
         return this[attribute];
@@ -54,7 +57,6 @@ Model.prototype.get = function (attribute) {
  * @param {Object} attributes
  */
 Model.prototype.validate = function (attributes) {
-    "use strict";
-
     throw new Error('this is Abstract method');
 };
+}(window));

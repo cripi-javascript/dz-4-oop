@@ -1,5 +1,7 @@
-﻿var Collection = function (items) {
+﻿(function (exports) {
     "use strict";
+
+var Collection = function (items) {
 
     this.items = [];
     var key;
@@ -13,13 +15,13 @@
 
 /**
  * Добавляет в коллекцию объект
+ *
  * @param {object} model
  *
  * @return {Collection} * @example
  *
  */
 Collection.prototype.add = function (model) {
-    "use strict";
 
     var temp = new Collection(this.items);
     temp.items.push(model);
@@ -38,7 +40,6 @@ Collection.prototype.add = function (model) {
  * @return {Collection}
  */
 Collection.prototype.filter = function (selector) {
-    "use strict";
 
     if (typeof selector !== "function") {
         throw new Error('Argument must be function');
@@ -49,13 +50,13 @@ Collection.prototype.filter = function (selector) {
 
 /**
  * Принимает функцию сортировки и сортирует на основе ее
+ *
  * @param {function} selector
  *
  * @return {Collection} * @example
  *
  */
 Collection.prototype.sort = function (selector) {
-    "use strict";
 
     if (typeof selector !== "function") {
         throw new Error('Argument must be function');
@@ -63,3 +64,4 @@ Collection.prototype.sort = function (selector) {
 
     return new Collection(this.items.sort(selector));
 };
+)(window));

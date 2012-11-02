@@ -1,8 +1,7 @@
-﻿/*global alert: true*/
-/*global Model: true*/
+﻿((function (exports) {
+    "use strict";
 
 function isDate(date) {
-    "use strict";
 
     if (typeof date === 'undefined') {
         return false;
@@ -14,7 +13,6 @@ function isDate(date) {
 }
 
 function inherits(constructor, superconstructor) {
-    "use strict";
 
     var Func = function () { };
 
@@ -23,7 +21,6 @@ function inherits(constructor, superconstructor) {
 }
 
 var Event = function (data) {
-    "use strict";
 
     Model.apply(this, arguments);
 };
@@ -55,7 +52,6 @@ inherits(Event, Model);
  * @return {Object}
  */
 Event.prototype.validate = function () {
-    "use strict";
 
     var remindTime = this.remindTime || 0;
     this.raiting = this.raiting || 0;
@@ -82,3 +78,4 @@ Event.prototype.validate = function () {
         "raiting": this.raiting
     };
 };
+}(window));
