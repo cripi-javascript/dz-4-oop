@@ -5,44 +5,18 @@
  * @this {EventsCollection}
  * @param {Array} collect_list Список Event классов.
  */
-var EventsCollection = function (collect_list) {
-    if (Object.prototype.toString.call(collect_list) !== '[object Array]') {
-        throw new TypeError("argument must be Array");
-    }
-    
-    this.list = collect_list;
-};
+var EventsCollection = new Collection({
+    'model': Event
+});
 
-/**
- * Фильтрует объекты из коллекции.
- *
- * @param {function} filter_function Функция для фильтрации, this - ссылка на Event, должен вернуть boolean значение (True - значение будет добавлено в отфильтрованную коллекцию).
- * @return {EventsCollection} Новый объект EventsCollection.
- */
-EventsCollection.prototype.filter = function (filter_function) {
-    if (typeof filter_function !== "function") {
-        throw new TypeError("argument must be function");
-    }
-    
-    var buff = [];
-    for (var i = 0; i < this.list.length; i++) {
-        var event = this.list[i];
-        if (filter_function.call(event)) {
-            buff.push(event);
-        }
-    }
-    
-    return new EventsCollection(buff);
-}
-    
 /**
  * Отфильтровывает события, которые произошли до указанной даты.
  *
  * @return {EventsCollection} Новый объект EventsCollection.
  */
 EventsCollection.prototype.start_before = function(date) {
-    return this.filter(function () {
-        return this.info.start_time < date;
+    return this.filter(function (event) {
+        return event.get('start_time') < date;
     });
 };
     
@@ -52,7 +26,7 @@ EventsCollection.prototype.start_before = function(date) {
  * @return {number} Кол-во событий.
  */
 EventsCollection.prototype.count_events = function() {
-    return this.list.length;
+    return this.size();
 };
     
 /**
@@ -61,11 +35,19 @@ EventsCollection.prototype.count_events = function() {
  * @return {EventsCollection} Новый объект EventsCollection.
  */
 EventsCollection.prototype.start_after = function(date) {
-    return this.filter(function () {
-        return this.info.start_time > date;
+    return this.filter(function (event) {
+        return event.get('start_time') > date;
     });
 };
 
+
+function ok(name, val1, val2) {
+    if (val1 !== val2) {
+        console.log(name + " [FAILED]");
+    } else {
+        console.log(name + " [OK]");
+    }
+}
 
 function Collection_tests() {
     var a1 = createNewEvent(222, 333, 'lol');
@@ -76,16 +58,17 @@ function Collection_tests() {
     
     // t1
     var events_before_date = events_callect.start_before(223);
-    console.log(events_before_date.list.length == 2);
+    ok('events_before_date filter', events_before_date.size(), 2);
     
     // t2
-    console.log(events_before_date.count_events() == 2);
+    ok('events_before_date count_events()', events_before_date.count_events(), 2);
     
     // t3
     var events_after_date = events_callect.start_after(222);
-    console.log(events_after_date.count_events() == 1);
+    ok('events_after_date filter count_events()', events_after_date.count_events(), 1);
     
     // t4 combine methods
     var some_filtered_event = events_callect.start_before(223).start_after(100);
-    console.log(some_filtered_event.count_events() == 1);
+    ok('sequence filters', some_filtered_event.count_events(), 1);
 }
+Collection_tests();

@@ -5,28 +5,29 @@
  * @constructor
  * @param {Object} info Обект, описывающий общую информацию о мероприятии (место проведения, название, описание, временные рамки).
  */
-var Event = function (info) {
-    var def = {
+var Event = new Model({
+    'default': {
         title: "event"
-    };
-    
-    this.info = _.extend(def, info);
-    
-    if (!this.info.start_time || !this.info.end_time) {
-        throw "miss required fields";
+    },
+    'constructor': function (info) {
+        this.update(info);
+    },
+    'errors': function (name) {
+        if (!this.get('start_time') || !this.get('end_time')) {
+            return "miss required fields";
+        }
+        if (this.get('start_time') > this.get('end_time')) {
+            return "starat_time more then end_time";
+        }
+        return null
     }
-    
-    if (this.info.start_time > this.info.end_time) {
-        throw "starat_time more then end_time";
-    }
-    
-};
+});
 
 /**
  * Создает объект Event
  *
- * @param {Number|Date} start             Начало события
- * @param {Number|Date} end               Конец события
+ * @param {Number|Date} start_at             Начало события
+ * @param {Number|Date} end_at               Конец события
  * @param {String}      [name="Событие"]  Имя события
  *
  * @example
@@ -47,7 +48,8 @@ function createNewEvent(start_at, end_at, name) {
 }
 
 
-function Model_tests() {
+function ModelTests() {
     var a = createNewEvent(222, 333, 'lol');
 }
+ModelTests();
         
