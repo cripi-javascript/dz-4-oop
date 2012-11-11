@@ -19,7 +19,7 @@ EventsCollection.prototype.start_before = function(date) {
         return event.get('start_time') < date;
     });
 };
-    
+
 /**
  * Возвращает количество событий (Event) в коллекции.
  *
@@ -28,7 +28,7 @@ EventsCollection.prototype.start_before = function(date) {
 EventsCollection.prototype.count_events = function() {
     return this.size();
 };
-    
+
 /**
  * Отфильтровывает события, которые произошли после указанной даты.
  *
@@ -40,6 +40,11 @@ EventsCollection.prototype.start_after = function(date) {
     });
 };
 
+/**
+ *
+ * TESTS
+ *
+ */
 
 function ok(name, val1, val2) {
     if (val1 !== val2) {
@@ -55,7 +60,7 @@ function Collection_tests() {
     var a3 = createNewEvent(100, 500, 'lol2');
     var events_data = [a1, a2, a3];
     var events_callect = new EventsCollection(events_data);
-    
+
     // t1
     var events_before_date = events_callect.start_before(223);
     ok('events_before_date filter', events_before_date.size(), 2);

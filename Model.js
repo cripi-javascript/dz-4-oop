@@ -37,7 +37,7 @@ var Event = new Model({
  *
  * @return {Object}
  */
-function createNewEvent(start_at, end_at, name) {
+function createNewEvent(start_at, end_at, name, no_my) {
     var info = {
         start_time: start_at,
         end_time: end_at,
