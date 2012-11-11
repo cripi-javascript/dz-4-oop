@@ -14,7 +14,7 @@ var EventsCollection = new Collection({
  *
  * @return {EventsCollection} Новый объект EventsCollection.
  */
-EventsCollection.prototype.start_before = function(date) {
+EventsCollection.prototype.start_before = function (date) {
     return this.filter(function (event) {
         return event.get('start_time') < date;
     });
@@ -25,7 +25,7 @@ EventsCollection.prototype.start_before = function(date) {
  *
  * @return {number} Кол-во событий.
  */
-EventsCollection.prototype.count_events = function() {
+EventsCollection.prototype.count_events = function () {
     return this.size();
 };
 
@@ -34,9 +34,20 @@ EventsCollection.prototype.count_events = function() {
  *
  * @return {EventsCollection} Новый объект EventsCollection.
  */
-EventsCollection.prototype.start_after = function(date) {
+EventsCollection.prototype.start_after = function (date) {
     return this.filter(function (event) {
         return event.get('start_time') > date;
+    });
+};
+
+/**
+ * Фильтрует личные события.
+ *
+ * @return {EventsCollection} Новый объект EventsCollection.
+ */
+EventsCollection.prototype.my_events = function () {
+    return this.filter(function (event) {
+        return event.get('go');
     });
 };
 
@@ -64,16 +75,18 @@ function Collection_tests() {
     // t1
     var events_before_date = events_callect.start_before(223);
     ok('events_before_date filter', events_before_date.size(), 2);
-    
+
     // t2
     ok('events_before_date count_events()', events_before_date.count_events(), 2);
-    
+
     // t3
     var events_after_date = events_callect.start_after(222);
     ok('events_after_date filter count_events()', events_after_date.count_events(), 1);
-    
+
     // t4 combine methods
     var some_filtered_event = events_callect.start_before(223).start_after(100);
     ok('sequence filters', some_filtered_event.count_events(), 1);
+
+    ok('MY EVENTS filter', some_filtered_event.my_events().size(), 0);
 }
 Collection_tests();

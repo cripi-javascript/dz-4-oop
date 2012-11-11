@@ -7,7 +7,8 @@
  */
 var Event = new Model({
     'default': {
-        title: "event"
+        title: "event",
+        go: false
     },
     'constructor': function (info) {
         this.update(info);
@@ -19,7 +20,7 @@ var Event = new Model({
         if (this.get('start_time') > this.get('end_time')) {
             return "starat_time more then end_time";
         }
-        return null
+        return null;
     }
 });
 
@@ -37,13 +38,16 @@ var Event = new Model({
  *
  * @return {Object}
  */
-function createNewEvent(start_at, end_at, name, no_my) {
+function createNewEvent(start_at, end_at, name, go) {
     var info = {
         start_time: start_at,
         end_time: end_at,
         name: name
     };
-    
+    if (go) {
+        info.go = true;
+    }
+
     return new Event(info);
 }
 
@@ -52,4 +56,3 @@ function ModelTests() {
     var a = createNewEvent(222, 333, 'lol');
 }
 ModelTests();
-        
