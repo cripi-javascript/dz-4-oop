@@ -55,14 +55,16 @@
  */
 var Model = function (ext) {
     var ModelConstructor = function () { // faced construct
-        if (this == window) {
+        if (this === window) {
             throw new SyntaxError('WARNING: miss new');
         }
 
         this.__private_attrs = _.extend({}, this.default);
         this.constructor.apply(this, arguments);
         var errors = this.errors();
-        if (errors) throw new SyntaxError("Invalid value in constructor: " + errors);
+        if (errors) {
+            throw new SyntaxError("Invalid value in constructor: " + errors);
+        }
     };
     ModelConstructor.prototype = _.extend({}, Model.prototype, ext);
 
@@ -121,14 +123,14 @@ Model.prototype.set = function (name, value, no_check_error) {
         throw new SyntaxError("Invalid parameter");
     }
 
-    var _back = this.__private_attrs[name];
+    var back = this.__private_attrs[name];
     this.__private_attrs[name] = value;
 
     if (!no_check_error) {
         var errors = this.errors(name);
         if (errors) {
             console.log('WARNING: rollback set method. validation error: ' + errors);
-            this.__private_attrs[name] = _back; // rollback;
+            this.__private_attrs[name] = back; // rollback;
             return false;
         }
     }
@@ -144,17 +146,17 @@ Model.prototype.set = function (name, value, no_check_error) {
  */
 Model.prototype.update = function (dict) {
     var self = this;
-    var _back = {};
+    var back = {};
 
     _.forEach(dict, function(val, key) {
         self.set(key, val, true);
-        _back[key] = val;
+        back[key] = val;
     });
 
     var errors = this.errors();
     if (errors) {
         console.log('WARNING: rollback update method. validation error: ' + errors);
-        _.update(this.__private_attrs, _back); // rollback;
+        _.update(this.__private_attrs, back); // rollback;
         return false;
     }
 
@@ -172,7 +174,7 @@ Model.prototype.has = function (name) {
         throw new SyntaxError("Invalid parameter");
     }
 
-    return this.__private_attrs[name] != null;
+    return this.__private_attrs[name] !== null;
 };
 
 /**
@@ -295,7 +297,7 @@ Model.prototype.errors = function (name) { return ""; };
  */
 var Collection = function (ext) {
     var CollectionConstructor = function (models) { // faced construct
-        if (this == window) {
+        if (this === window) {
             throw new SyntaxError('WARNING: miss new');
         }
 
@@ -409,7 +411,7 @@ function TestModel() {
         },
         'errors': function (name) {
             if (this.get('val0') >= 0) {
-                return 'val0 can not be great than zero'
+                return 'val0 can not be great than zero';
             }
             return null;
         }
@@ -473,7 +475,7 @@ function TestCollection() {
         },
         'errors': function (name) {
             if (this.get('val0') >= 0) {
-                return 'val0 can not be great than zero'
+                return 'val0 can not be great than zero';
             }
             return null;
         }
@@ -506,5 +508,6 @@ function TestCollection() {
     ok('SortBy collection', c.sortBy(function (val) { return (val.get('val0') % 3) * 10000 + val.get('val0') * -1; }).at(0).get('val0'), -20);
 
 }
+
 TestModel();
 TestCollection();
