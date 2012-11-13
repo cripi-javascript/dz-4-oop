@@ -85,7 +85,28 @@ function checkAlert(alert) {
 	}
 	return alert;
 }
-
+/**
+ * Создает объект Event
+ *
+ * @param {String}      [title="New Event"]     Имя события
+ * @param {String}      [location]              Место события
+ * @param {Number|Date} [starts="new Date()"]   Начало события
+ * @param {Number|Date} [ends="starts + 1"]     Конец события
+ * @param {Object}      [repeat="REPEAT.NEVER"] Периодичность события
+ * @param {Object}      [alert="ALERT.NONE"]    Предупреждение
+ * @param {String}      [notes]                 Заметки
+ *
+ * @example
+ *   new Event({title: "Лекция JavaScript",
+ *          location: "УРГУ",
+ *          starts: new Date('2011-10-10T14:48:00'),
+ *          ends: new Date('2011-10-10T15:48:00'),
+ *          repeat: REPEAT.WEEK,
+ *          alert: ALERT.B30MIN,
+ *          notes: "Вспомнить, что проходили на прошлом занятии"})
+ *
+ * @return {Event}
+ */
 var Event = function (data) {
 	Model.apply(this, arguments);
 };

@@ -97,7 +97,7 @@ function getRandomEndDate(startDate) {
 /**
  * Возвращает сгенерированный случайным образом объект Event
  *
- * @return {Object}
+ * @return {Event}
  */
 function getRandomEvent() {
 	'use strict';
@@ -109,5 +109,25 @@ function getRandomEvent() {
 	repeat = getRandomPropertyVal(REPEAT);
 	alert = getRandomPropertyVal(ALERT);
 	notes = getRandomString();
-	return Event(title, location, starts, ends, repeat, alert, notes);
+	return new Event({
+		title: title,
+		location: location,
+		starts: starts,
+		ends: ends,
+		repeat: repeat,
+		alert: alert,
+		notes: notes
+		});
 }
+
+function getRandomEventCollection(size) {
+	'use strict';
+	var i, events;
+	events = new Events();
+	for (i = 0; i < size; i++) {
+		events.add(getRandomEvent());
+	}
+	return events;
+}
+
+var events = getRandomEventCollection(20);

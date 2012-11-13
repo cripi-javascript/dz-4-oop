@@ -2,9 +2,7 @@ var Model = function (data) {
 	"use strict";
 	var propName;
 	for (propName in data) {
-		if (this.hasOwnProperty(propName)) {
-			this[propName] = data[propName];
-		}
+		this[propName] = data[propName];
 	}
 
 };
@@ -19,9 +17,7 @@ Model.prototype.set = function (attributes) {
 	"use strict";
 	var attribute;
 	for (attribute in attributes) {
-		if (this.hasOwnProperty(attribute)) {
-			this[attribute] = attributes[attribute];
-		}
+		this[attribute] = attributes[attribute];
 	}
 };
 /**
