@@ -1,7 +1,5 @@
-﻿var Model = function (attributes) {
-    for (var keyName in attributes) {
-        this[keyName] = attributes[keyName];
-    }
+﻿var Model = function () {
+    "use strict";
 };
 
 /**
@@ -11,17 +9,25 @@
  *     item.set({title: "March 20", content: "In his eyes she eclipses..."});
  */
 Model.prototype.set = function (attributes) {
-    for (var keyName in attributes) {
+    "use strict";
+    var keyName;
+    for (keyName in attributes) {
         this[keyName] = attributes[keyName];
     }
 };
+
 /**
  * @param {String} attribute
  */
 Model.prototype.get = function (attribute) {
+    "use strict";
     return this[attribute];
 };
+
 /**
  * @param {Object} attributes
  */
-Model.prototype.validate = function (attributes) { throw new Error('this is Abstract method') };
+Model.prototype.validate = function (attributes) {
+    "use strict";
+    throw new Error('this is Abstract method');
+};

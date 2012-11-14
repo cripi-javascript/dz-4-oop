@@ -13,19 +13,16 @@
 *       EventTime(new Date(2011, 10, 10, 14, 48, 00), 60),
 *       ["Жигалов Сергей Алексеевич"], 5)
 *
-* @return {Object}
 * @see EventTime
 */
 
-function CreateEvent(name, address, time, member, raiting) {
+var Event = function (name, address, time, member, raiting) {
     "use strict";
-    return {
-        "name": name || "Событие",
-        "address": address.toString(),
-        "time": time,
-        "member": member || [],
-        "raiting": +raiting || 3
-    };
+    this.name = name || "Событие";
+    this.address = address.toString();
+    this.time = time;
+    this.member = member || [];
+    this.raiting = +raiting || 3;
 }
 
 
@@ -49,33 +46,6 @@ function EventTime(start, length) {
     };
 }
 
-var events = [
-    CreateEvent("jsy6on0kz4", "7429kpz7nh", EventTime(new Date(2012, 10, 8), 45), ["Иванов", "я", "Петров"]), // 1
-    CreateEvent("l8zklfh2r5", "1ygb121nee", EventTime(new Date(2012, 11, 22), 45), ["Иванов", "я"]),          // 2
-    CreateEvent("weoua5w3pf", "icu620fqpo", EventTime(new Date(2012, 11, 3), 45), ["Иванов"]),                // 3
-    CreateEvent("5zs4x4aij9", "4x9pkek4dp", EventTime(new Date(2012, 9, 10), 45), ["Иванов", "я", "Петров"]), // 4
-    CreateEvent("s1m5vkm5mv", "5v6hifv041", EventTime(new Date(2012, 11, 25)), ["Иванов", "я"]),              // 5
-    CreateEvent("3bdg49u3ez", "zwvyu91w3b", EventTime(new Date(2012, 10, 10), 45), ["Иванов", "Петров"]),     // 6
-    CreateEvent("efc7dr20dx", "u641l89gw7", EventTime(new Date(2012, 9, 9)), ["Иванов", "я"]),                // 7
-    CreateEvent("pqlv9jglxq", "nkb24jd7u6", EventTime(new Date(2012, 10, 29)), ["Петров"]),                   // 8
-    CreateEvent("iei2z6c63b", "kgzdrcs4mk", EventTime(new Date(2012, 11, 9)), ["я", "Петров"]),               // 9
-    CreateEvent("kygauxe4ub", "br0vzaikwr", EventTime(new Date(2012, 11, 27), 45), ["Иванов", "я"], 5),       // 10
-    CreateEvent("ke4vd03xp8", "9k3bbogzz5", EventTime(new Date(2012, 11, 3), 45), ["Иванов"]),                // 11
-    CreateEvent("jt4kew1ayg", "4q51wfulmd", EventTime(new Date(2012, 11, 29), 45), ["Иванов", "Петров"]),     // 12
-    CreateEvent("dg9q72wmw9", "c5r5t5z024", EventTime(new Date(2012, 11, 8), 45), ["Иванов"]),                // 13
-    CreateEvent("v4873m9tgp", "l0rdqy22d3", EventTime(new Date(2012, 10, 25), 45), ["Иванов", "я"]),          // 14
-    CreateEvent("rrb6bjyubc", "0oxvmk59p4", EventTime(new Date(2012, 10, 23)), ["Иванов", "я"]),              // 15
-    CreateEvent("0oqqd4j655", "rb1gc65t8d", EventTime(new Date(2012, 10, 11), 45), ["Иванов", "Петров"]),     // 16
-    CreateEvent("f7b16x9cmy", "ncxmyqnhp1", EventTime(new Date(2012, 11, 4)), ["Иванов", "я"]),               // 17
-    CreateEvent("ik3xyzqoky", "3cguxe6l6n", EventTime(new Date(2012, 11, 16)), ["Петров"]),                   // 18
-    CreateEvent("u4mfqatngu", "a7vnsmnpb0", EventTime(new Date(2012, 9, 24)), ["я"]),                         // 19
-    CreateEvent("s53m0j6u9j", "bk9y4szr2s", EventTime(new Date(2012, 9, 7), 45), ["Иванов", "я"], 5),         // 20
-    CreateEvent("lkajbmx7y2", "vwzpu1xl0o", EventTime(new Date(2012, 9, 20), 45), ["Иванов", "я", "Петров"], 1)//21
-];
-
-var Event = function (arguments) {
-    Model.apply(this, arguments);
-};
 Event.prototype = {
     __proto__: Model.prototype
 };
@@ -89,4 +59,4 @@ Event.prototype.validate = function (attributes) {
     }
 };
 
-var modelEvents = new Event(CreateEvent("jsy6on0kz4", "7429kpz7nh", EventTime(new Date(2012, 10, 8), 45), ["Иванов", "я", "Петров"]));
+var modelEvents = new Event("jsy6on0kz4", "7429kpz7nh", EventTime(new Date(2012, 10, 8), 45), ["Иванов", "я", "Петров"]);
