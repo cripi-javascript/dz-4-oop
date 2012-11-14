@@ -26,7 +26,9 @@ Collection.prototype.add = function (model) {
  */
 Collection.prototype.filter = function (selector) {
 	'use strict';
-	this.items.filter(selector);
+	var tmp;
+	tmp = this.items.filter(selector);
+	this.items = tmp;
 	return this;
 };
 /**

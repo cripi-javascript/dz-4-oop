@@ -112,8 +112,8 @@ function getRandomEvent() {
 	return new Event({
 		title: title,
 		location: location,
-		starts: starts,
-		ends: ends,
+		startDate: starts,
+		endDate: ends,
 		repeat: repeat,
 		alert: alert,
 		notes: notes

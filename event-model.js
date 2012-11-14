@@ -99,8 +99,8 @@ function checkAlert(alert) {
  * @example
  *   new Event({title: "Лекция JavaScript",
  *          location: "УРГУ",
- *          starts: new Date('2011-10-10T14:48:00'),
- *          ends: new Date('2011-10-10T15:48:00'),
+ *          startDate: new Date('2011-10-10T14:48:00'),
+ *          endDate: new Date('2011-10-10T15:48:00'),
  *          repeat: REPEAT.WEEK,
  *          alert: ALERT.B30MIN,
  *          notes: "Вспомнить, что проходили на прошлом занятии"})
