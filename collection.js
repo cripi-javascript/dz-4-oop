@@ -3,7 +3,7 @@ var Collection = function (items) {
 	this.items = [];
 	for (var item in items) {
 		if (items[item].validate()) {
-			this.items.push(item);
+			this.items.push(items[item]);
 		}
 	}
 };

@@ -119,12 +119,12 @@ inherits(Event, Model);
  */
 Event.prototype.validate = function () {
 	'use strict';
-	this.starts = checkStartDate(this.starts);
-	if (this.starts === null) {
+	this.startDate = checkStartDate(this.startDate);
+	if (this.startDate === null) {
 		return;
 	} 
-	this.ends = checkEndDate(this.ends, this.starts);
-	if (this.ends === null) {
+	this.endDate = checkEndDate(this.endDate, this.startDate);
+	if (this.endDate === null) {
 		return;
 	}
 	this.repeat = checkRepeat(this.repeat);
