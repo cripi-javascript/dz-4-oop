@@ -67,3 +67,5 @@ Events.prototype.sortByNextHappenDate = function (asc) {
 		return getNextHappenDate(b) - getNextHappenDate(a);
 	}, asc);
 };
+
+Events.prototype.constructor = Events;

@@ -1,8 +1,8 @@
 var Collection = function (items) {
 	'use strict';
 	this.items = [];
-	for (item in items) {
-		if (item.validate()) {
+	for (var item in items) {
+		if (items[item].validate()) {
 			this.items.push(item);
 		}
 	}
@@ -26,10 +26,8 @@ Collection.prototype.add = function (model) {
  */
 Collection.prototype.filter = function (selector) {
 	'use strict';
-	var tmp;
-	tmp = this.items.filter(selector);
-	this.items = tmp;
-	return this;
+	var tmp = this.items.filter(selector);
+	return new this.constructor(tmp);
 };
 /**
  * Сортировка коллекции по правилам, определенным в функции selector

@@ -32,4 +32,3 @@ Model.prototype.get = function (attribute) {
  * @param {Object} attributes
  */
 Model.prototype.validate = function (attributes) {throw new Error('this is Abstract method')};
-// Другие необходимые вам поля

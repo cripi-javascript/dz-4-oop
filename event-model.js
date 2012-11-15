@@ -137,3 +137,5 @@ Event.prototype.validate = function () {
 	}
 	return this;
 };
+
+Event.prototype.constructor = Event;
