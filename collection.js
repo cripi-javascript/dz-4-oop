@@ -3,8 +3,10 @@ var Collection = function (items) {
 	var item;
 	this.items = [];
 	for (item in items) {
-		if (items[item].validate()) {
-			this.items.push(items[item]);
+		if (items.hasOwnProperty(item)) {
+			if (items[item].validate()) {
+				this.items.push(items[item]);
+			}
 		}
 	}
 };
@@ -12,37 +14,42 @@ var Collection = function (items) {
 /**
  * @return {Collection}
  */
-Collection.prototype.add = function (model) {
-	'use strict';
-	this.items.push(model);
-};
-/**
- * Фильтрация коллекции по правилам, определенным в функции selector
- * 
- * @param {Function} selector
- *
- * @see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/filter
- *
- * @return {Collection}
- */
-Collection.prototype.filter = function (selector) {
-	'use strict';
-	var tmp = this.items.filter(selector);
-	return new this.constructor(tmp);
-};
-/**
- * Сортировка коллекции по правилам, определенным в функции selector
- * 
- * @param {Function} selector
- * @param {Boolean} asc
- *
- * @return {Collection}
- */
-Collection.prototype.sortBy = function (selector, asc) {
-	'use strict';
-	this.items.sort(selector);
-	if (asc) {
-		this.items.reverse();
-	}
-	return this;
-};
+Collection.prototype =
+	{
+		add : function (model) {
+			'use strict';
+			if (model.validate()) {
+				this.items.push(model);
+			}
+		},
+		/**
+		 * Р¤РёР»СЊС‚СЂР°С†РёСЏ РєРѕР»Р»РµРєС†РёРё РїРѕ РїСЂР°РІРёР»Р°Рј, РѕРїСЂРµРґРµР»РµРЅРЅС‹Рј РІ С„СѓРЅРєС†РёРё selector
+		 * 
+		 * @param {Function} selector
+		 *
+		 * @see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/filter
+		 *
+		 * @return {Collection}
+		 */
+		filter : function (selector) {
+			'use strict';
+			var tmp = this.items.filter(selector);
+			return new this.constructor(tmp);
+		},
+		/**
+		 * РЎРѕСЂС‚РёСЂРѕРІРєР° РєРѕР»Р»РµРєС†РёРё РїРѕ РїСЂР°РІРёР»Р°Рј, РѕРїСЂРµРґРµР»РµРЅРЅС‹Рј РІ С„СѓРЅРєС†РёРё selector
+		 * 
+		 * @param {Function} selector
+		 * @param {Boolean} asc
+		 *
+		 * @return {Collection}
+		 */
+		sortBy : function (selector, asc) {
+			'use strict';
+			this.items.sort(selector);
+			if (asc) {
+				this.items.reverse();
+			}
+			return this;
+		}
+	};

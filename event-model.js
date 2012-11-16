@@ -1,3 +1,4 @@
+/*jslint devel: true */
 function checkStartDate(date) {
 	'use strict';
 	if (date === null) {
@@ -90,80 +91,79 @@ function checkAlert(alert) {
  * @return {Event}
  */
 var Event = function (data) {
+	'use strict';
 	Model.apply(this, arguments);
 };
 inherits(Event, Model);
+
+Event.prototype.constructor = Event;
 
 /**
   * Функция, валидирующая объект Event 
   * 
   * @return {Event}
  */
-Event.prototype =
-	{
-		constructor : Event,
-		validate : function () {
-			'use strict';
-			this.startDate = checkStartDate(this.startDate);
-			if (this.startDate === null) {
-				return;
-			} 
-			this.endDate = checkEndDate(this.endDate, this.startDate);
-			if (this.endDate === null) {
-				return;
-			}
-			this.repeat = checkRepeat(this.repeat);
-			if (this.repeat === null) {
-				return;
-			}
-			this.alert = checkAlert(this.alert);
-			if (this.alert === null) {
-				return;
-			}
-			return this;
-		},
-		/**
-		 * Вычисляет когда в следующий раз случится периодическое событие
-		 *
-		 * @return {Date}
-		 */
-		getNextHappenDate : function() {
-			'use strict';
-			var nhd, today;
-			if (!this.nextHappenDate) {
-				today = new Date();
-				nhd = this.startDate;
-				while (nhd < today) {
-					nhd = Utils.addDateTime(nhd, this.repeat.value);
-				}
-				this.nextHappenDate = nhd;
-			}
-			return this.nextHappenDate;
-		},
-		/**
-		 * Вычисляет следующее время напоминания для периодических событий
-		 *
-		 * @param {Event} event          Событие
-		 *
-		 * @return {Date}
-		 */
-		getNextAlarmTime : function() {
-			'use strict';
-			var nhd = this.getNextHappenDate();
-			return Utils.addDateTime(nhd, event.alert.value);
-		},
-		/**
-		 * Функция проверяет, нужно ли напомнить о событии
-		 *
-		 * @param {Event} event          Событие
-		 *
-		 * @return {Boolean}
-		 */
-		isAlertTime : function() {
-			'use strict';
-			var today, diff;
-			today = new Date();
-			diff = today - this.getNextAlarmTime();
-			return diff > -500 && diff < 500;
+Event.prototype.validate = function () {
+	'use strict';
+	this.startDate = checkStartDate(this.startDate);
+	if (this.startDate === null) {
+		return;
+	}
+	this.endDate = checkEndDate(this.endDate, this.startDate);
+	if (this.endDate === null) {
+		return;
+	}
+	this.repeat = checkRepeat(this.repeat);
+	if (this.repeat === null) {
+		return;
+	}
+	this.alert = checkAlert(this.alert);
+	if (this.alert === null) {
+		return;
+	}
+	return this;
+};
+/**
+ * Вычисляет когда в следующий раз случится периодическое событие
+ *
+ * @return {Date}
+ */
+Event.prototype.getNextHappenDate = function () {
+	'use strict';
+	var nhd, today;
+	if (!this.nextHappenDate) {
+		today = new Date();
+		nhd = this.startDate;
+		while (nhd < today) {
+			nhd = Utils.addDateTime(nhd, this.repeat.value);
 		}
-	};
+		this.nextHappenDate = nhd;
+	}
+	return this.nextHappenDate;
+};
+/**
+ * Вычисляет следующее время напоминания для периодических событий
+ *
+ * @param {Event} event          Событие
+ *
+ * @return {Date}
+ */
+Event.prototype.getNextAlarmTime = function () {
+	'use strict';
+	var nhd = this.getNextHappenDate();
+	return Utils.addDateTime(nhd, this.alert.value);
+};
+/**
+ * Функция проверяет, нужно ли напомнить о событии
+ *
+ * @param {Event} event          Событие
+ *
+ * @return {Boolean}
+ */
+Event.prototype.isAlertTime = function () {
+	'use strict';
+	var today, diff;
+	today = new Date();
+	diff = today - this.getNextAlarmTime();
+	return diff > -500 && diff < 500;
+};

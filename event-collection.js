@@ -1,9 +1,12 @@
 var Events = function (items) {
+	'use strict';
 	Collection.apply(this, arguments);
 };
 inherits(Events, Collection);
 
+Events.prototype.constructor = Events;
 /**
+ * Возвращает новую коллекцию, содержащую только прошедшие события
  * @return {Events}
  */
 Events.prototype.findPastEvents = function () {
@@ -13,6 +16,7 @@ Events.prototype.findPastEvents = function () {
 	});
 };
 /**
+ * Возвращает новую коллекцию, содержащую только будущие события
  * @return {Events}
  */
 Events.prototype.findFutureEvents = function () {
@@ -22,15 +26,17 @@ Events.prototype.findFutureEvents = function () {
 	});
 };
 /**
+ * Возвращает новую коллекцию, содержащую только события этой недели
  * @return {Events}
  */
 Events.prototype.findThisWeekEvents = function () {
 	'use strict';
 	return this.filter(function (event) {
-		return event.startDate > getWeekStartDate() && event.startDate < getWeekEndDate();
+		return event.startDate > Utils.getWeekStartDate() && event.startDate < Utils.getWeekEndDate();
 	});
 };
 /**
+ * Возвращает новую коллекцию, содержащую только события 'Drunken feast'
  * @return {Events}
  */
 Events.prototype.findPartyEvents = function () {
@@ -40,16 +46,18 @@ Events.prototype.findPartyEvents = function () {
 	});
 };
 /**
+ * Возвращает новую коллекцию, содержащую только те события, напоминание которых сработает ночью
  * @return {Events}
  */
 Events.prototype.findNightAlarms = function () {
 	'use strict';
 	return this.filter(function (event) {
-		var alarm = getNextAlarmTime(event);
+		var alarm = event.getNextAlarmTime();
 		return alarm.getHours() > 0 && alarm.getHours() < 8;
 	});
 };
 /**
+ * Сортирует коллекцию по дате начала события
  * @return {Events}
  */
 Events.prototype.sortByStartDate = function (asc) {
@@ -59,13 +67,12 @@ Events.prototype.sortByStartDate = function (asc) {
 	}, asc);
 };
 /**
+ * Сортирует коллекцию по следующей дате периодического события
  * @return {Events}
  */
 Events.prototype.sortByNextHappenDate = function (asc) {
 	'use strict';
 	return this.sortBy(function (a, b) {
-		return getNextHappenDate(b) - getNextHappenDate(a);
+		return b.getNextHappenDate() - a.getNextHappenDate();
 	}, asc);
 };
-
-Events.prototype.constructor = Events;
