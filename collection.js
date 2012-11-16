@@ -1,7 +1,8 @@
 var Collection = function (items) {
 	'use strict';
+	var item;
 	this.items = [];
-	for (var item in items) {
+	for (item in items) {
 		if (items[item].validate()) {
 			this.items.push(items[item]);
 		}

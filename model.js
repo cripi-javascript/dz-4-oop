@@ -32,3 +32,11 @@ Model.prototype.get = function (attribute) {
  * @param {Object} attributes
  */
 Model.prototype.validate = function (attributes) {throw new Error('this is Abstract method')};
+
+function inherits(Constructor, SuperConstructor) {
+	var F = function () {}; // Временный, чистый конструктор
+	// Сохраняем ссылку
+	F.prototype = SuperConstructor.prototype;
+	// Применяем __proto__ = prototype
+	Constructor.prototype = new F();
+}

@@ -4,7 +4,9 @@ var Collection = function (items) {
 	this.items = [];
 	for (item in items) {
 		if (items.hasOwnProperty(item)) {
-			this.add(item);
+			if (items[item].validate()) {
+				this.items.push(items[item]);
+			}
 		}
 	}
 };
@@ -15,6 +17,7 @@ var Collection = function (items) {
 Collection.prototype =
 	{
 		add : function (model) {
+			'use strict';
 			if (model.validate()) {
 				this.items.push(model);
 			}
@@ -29,10 +32,9 @@ Collection.prototype =
 		 * @return {Collection}
 		 */
 		filter : function (selector) {
-			var tmp;
-			tmp = this.items.filter(selector);
-			this.items = tmp;
-			return this;
+			'use strict';
+			var tmp = this.items.filter(selector);
+			return new this.constructor(tmp);
 		},
 		/**
 		 * Сортировка коллекции по правилам, определенным в функции selector
@@ -43,6 +45,7 @@ Collection.prototype =
 		 * @return {Collection}
 		 */
 		sortBy : function (selector, asc) {
+			'use strict';
 			this.items.sort(selector);
 			if (asc) {
 				this.items.reverse();

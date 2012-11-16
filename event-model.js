@@ -29,24 +29,6 @@ function checkEndDate(endDate, startDate) {
 	return date;
 }
 
-var REPEAT = {
-	NEVER: {title: "None", value: "+ 0.0.0 0:0"},
-	DAY: {title: "Every Day", value: "+ 1.0.0 0:0"},
-	WEEK: {title: "Every Week", value: "+ 7.0.0 0:0"},
-	TWOWEEK: {title: "Every 2 weeks", value: "+ 14.0.0 0:0"},
-	MONTH: {title: "Every month", value: "+ 0.1.0 0:0"},
-	YEAR: {title: "Every year", value: "+ 0.0.1 0:0"}
-};
-
-var ALERT = {
-	NONE: {title: "None", value: "+ 0.0.0 0:0"},
-	B5MIN: {title: "5 minutes before", value: "- 0.0.0 0:5"},
-	B15MIN: {title: "15 minutes before", value: "- 0.0.0 0:15"},
-	B30MIN: {title: "30 minutes before", value: "- 0.0.0 0:30"},
-	B1HOUR: {title: "1 hour before", value: "- 0.0.0 1:0"},
-	B1DAY: {title: "1 day before", value: "- 0.0.0 24:0"}
-};
-
 function checkAddTime(addTime) {
 	'use strict';
 	var re, splitted;
@@ -61,7 +43,7 @@ function checkAddTime(addTime) {
 function checkRepeat(repeat) {
 	'use strict';
 	if (repeat === null) {
-		repeat = REPEAT.NEVER;
+		repeat = Const.REPEAT.NEVER;
 	} else if (!(repeat.title && repeat.value)) {
 		console.log("Unknown type of 'repeat' variable");
 		repeat = null;
@@ -75,7 +57,7 @@ function checkRepeat(repeat) {
 function checkAlert(alert) {
 	'use strict';
 	if (alert === null) {
-		alert = ALERT.NONE;
+		alert = Const.ALERT.NONE;
 	} else if (!(alert.title && alert.value)) {
 		console.log("Unknown type of 'alert' variable");
 		alert = null;
@@ -92,8 +74,8 @@ function checkAlert(alert) {
  * @param {String}      [location]              Место события
  * @param {Number|Date} [starts="new Date()"]   Начало события
  * @param {Number|Date} [ends="starts + 1"]     Конец события
- * @param {Object}      [repeat="REPEAT.NEVER"] Периодичность события
- * @param {Object}      [alert="ALERT.NONE"]    Предупреждение
+ * @param {Object}      [repeat="Const.REPEAT.NEVER"] Периодичность события
+ * @param {Object}      [alert="Const.ALERT.NONE"]    Предупреждение
  * @param {String}      [notes]                 Заметки
  *
  * @example
@@ -117,25 +99,71 @@ inherits(Event, Model);
   * 
   * @return {Event}
  */
-Event.prototype.validate = function () {
-	'use strict';
-	this.startDate = checkStartDate(this.startDate);
-	if (this.startDate === null) {
-		return;
-	} 
-	this.endDate = checkEndDate(this.endDate, this.startDate);
-	if (this.endDate === null) {
-		return;
-	}
-	this.repeat = checkRepeat(this.repeat);
-	if (this.repeat === null) {
-		return;
-	}
-	this.alert = checkAlert(this.alert);
-	if (this.alert === null) {
-		return;
-	}
-	return this;
-};
-
-Event.prototype.constructor = Event;
+Event.prototype =
+	{
+		constructor : Event,
+		validate : function () {
+			'use strict';
+			this.startDate = checkStartDate(this.startDate);
+			if (this.startDate === null) {
+				return;
+			} 
+			this.endDate = checkEndDate(this.endDate, this.startDate);
+			if (this.endDate === null) {
+				return;
+			}
+			this.repeat = checkRepeat(this.repeat);
+			if (this.repeat === null) {
+				return;
+			}
+			this.alert = checkAlert(this.alert);
+			if (this.alert === null) {
+				return;
+			}
+			return this;
+		},
+		/**
+		 * Вычисляет когда в следующий раз случится периодическое событие
+		 *
+		 * @return {Date}
+		 */
+		getNextHappenDate : function() {
+			'use strict';
+			var nhd, today;
+			if (!this.nextHappenDate) {
+				today = new Date();
+				nhd = this.startDate;
+				while (nhd < today) {
+					nhd = Utils.addDateTime(nhd, this.repeat.value);
+				}
+				this.nextHappenDate = nhd;
+			}
+			return this.nextHappenDate;
+		},
+		/**
+		 * Вычисляет следующее время напоминания для периодических событий
+		 *
+		 * @param {Event} event          Событие
+		 *
+		 * @return {Date}
+		 */
+		getNextAlarmTime : function() {
+			'use strict';
+			var nhd = this.getNextHappenDate();
+			return Utils.addDateTime(nhd, event.alert.value);
+		},
+		/**
+		 * Функция проверяет, нужно ли напомнить о событии
+		 *
+		 * @param {Event} event          Событие
+		 *
+		 * @return {Boolean}
+		 */
+		isAlertTime : function() {
+			'use strict';
+			var today, diff;
+			today = new Date();
+			diff = today - this.getNextAlarmTime();
+			return diff > -500 && diff < 500;
+		}
+	};
