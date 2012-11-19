@@ -1,4 +1,4 @@
-﻿var Model = function () {
+﻿var Model = function (data) {
     "use strict";
 };
 
