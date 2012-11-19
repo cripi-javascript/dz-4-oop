@@ -18,22 +18,21 @@
 var Event = function (name, address, time, member, raiting) {
     "use strict";
 
-	Model.call(this);
+    Model.call(this);
     var myTime = time || new EventTime(new Date(), 60);
-    
+
     this.set({
-		name: name || "Событие",
-		address: address || "",
-		timeStart: myTime.start,
+        name: name || "Событие",
+        address: address || "",
+        timeStart: myTime.start,
         timeLength: myTime.length,
-		member: member || [],
-		raiting: +raiting || 3
-	});
+        member: member || [],
+        raiting: +raiting || 3
+    });
 }
 
-Event.prototype = {
-    __proto__: Model.prototype
-};
+inherits(Event, Model);
+Event.prototype.constructor = Event;
 
 
 /**
@@ -65,15 +64,15 @@ function EventTime(start, length) {
 Event.prototype.validate = function () {
     "use strict";
 
-	var errors = [];
+    var errors = [];
     if (this.get("timeLength") < 0) {
         errors.push("Продолжительность события меньше допустимой величины");
     }
-	if (this.get("raiting") < 0) {
+    if (this.get("raiting") < 0) {
         errors.puch("Рэйтинг собития меньше допустимой величины");
-	}
-	else if (this.get("raiting") > 5) {
-	    errors.push("Рэйтинг события больше допустимой величины");
-	}
-	return errors;
+    }
+    else if (this.get("raiting") > 5) {
+        errors.push("Рэйтинг события больше допустимой величины");
+    }
+    return errors;
 };

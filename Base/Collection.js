@@ -8,7 +8,11 @@
 var Collection = function (items) {
     "use strict";
 
-    this.items = items.slice(0);
+    var i;
+    this.items = []
+    for (i = 0; i < items.length; i++) {
+        this.items[i] = items[i].clone();
+    }
 };
 
 /**

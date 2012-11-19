@@ -31,3 +31,11 @@ Model.prototype.validate = function (attributes) {
     "use strict";
     throw new Error('this is Abstract method');
 };
+
+Model.prototype.clone = function () {
+    var attr, temp = new this.constructor();
+    for (attr in this) {
+        temp[attr] = clone(this.get(attr));
+    }
+    return temp;
+}

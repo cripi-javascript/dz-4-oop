@@ -7,9 +7,7 @@ var Events = function (items) {
     Collection.call(this, items);
 };
 
-Events.prototype = {
-    __proto__: Collection.prototype
-}
+inherits(Events, Collection);
 Events.prototype.constructor = Events;
 
 /**
