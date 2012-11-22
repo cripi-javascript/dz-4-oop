@@ -1,5 +1,16 @@
-﻿//Cоздать абстрактную коллекцию Collection представляющую из себя набор объектов Model каждый вызов метода 
-//Collection должен создавать новую коллекцию, а не изменять текущую
+﻿/*
+* Collection - абстрактная коллекция объектов
+* Collection.prototype.add - добавление объекта в коллекцию
+*
+* Events - коллекция событий в календаре. Объект наследуется от Collection
+* 
+* Event - объект события в календаре
+* Event.prototype.validate - проверяет корректность полей объекта 
+* Events.prototype.filterToDate - возвращает предстоящие или прощедшие события в зависимости от входящего параметра flag
+* Events.prototype.FilterToParty - возвращает события, в которых я принимаю/ не принимаю участие в зависимости от входящего параметра flag
+* Events.prototype.sortToDate - сортирует события по дате
+* function str2date(s) - преобразует строку в дату 
+*/
 var Collection = function (elem) {
         'use strict';
         this.elem = [];
@@ -32,13 +43,6 @@ var Events = function (items) {
 inherits(Events, Collection);
 
 Events.prototype.constructor = Events;
-
-var allEvents = new Events();
-var testEvent = new Event({"name": "Pewpe", "start": "11.12.2012", "end": "13.12.2012"});
-allEvents.add(testEvent);
-allEvents.add([new Event({"start": "11.12.2012"}), new Event({"start": "11.12.2012"}), new Event({"start": "11.12.2012"})]);
-allEvents.add(new Event({"name": "Two", "start": "11.12.2012"}));
-console.log(allEvents.add(testEvent));
 
 function str2date(s) {
     "use strict";

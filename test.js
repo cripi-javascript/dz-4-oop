@@ -1,4 +1,9 @@
-﻿var allEvents = new Events();
+﻿/*
+* Создается коллекция типа Events из объектов типа Event. 
+* 
+* В консоль выводится всевозможная информация об объектах в коллекции
+*/
+var allEvents = new Events();
 var testEvent= new Event({"name": "Pewpe", "start": "11.12.2012", "end": "13.12.2012"});
 var Work = new Event({
     "name": "Совещание",

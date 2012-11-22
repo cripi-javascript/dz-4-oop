@@ -1,4 +1,15 @@
-﻿var Model = function (attributes) {
+﻿/*
+* Model - абстрактный объект
+* Model.prototype.set - устанавливает аттрибуты и значения атрибутов, в соответсвии с принятым в качестве параметра объектом
+* Model.prototype.get - возвращает запрашиваемое свойство у объекта
+* Model.prototype.validate - проверяет корректность полей объекта 
+* 
+* Event - объект события в календаре. Объект наследуется от Model
+* Event.prototype.validate - проверяет корректность полей объекта 
+* 
+* function inherits(Constructor, SuperConstructor) - функция для чистого наследования
+*/
+var Model = function (attributes) {
 	    "use strict";
 	    var key;
 	    for (key in attributes) {
@@ -7,7 +18,7 @@
 		    }
         }
     };
-//Сеттер - устанавливает аттрибуты и значения атрибутов, в соответсвии с принятым в качестве параметра объектом
+
 Model.prototype.set = function (attributes) {
     "use strict";
     var key;
@@ -17,7 +28,7 @@ Model.prototype.set = function (attributes) {
 		}
     }
 };
-//Геттер - возвращает запрашиваемое свойство у объекта
+
 Model.prototype.get = function (attribute) {
     "use strict";
     if (this.hasOwnProperty(attribute)) {
