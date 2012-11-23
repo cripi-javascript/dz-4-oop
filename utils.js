@@ -122,14 +122,13 @@ var Utils = (function () {
 			 * @return {Event}
 			 */
 			getRandomEvent : function () {
-				var title, location, starts, ends, repeat, alert, notes;
-				title = this.getRandomElement(this.activities);
-				location = this.getRandomElement(this.locations);
-				starts = this.getRandomStartDate();
-				ends = this.getRandomEndDate(starts);
-				repeat = this.getRandomPropertyVal(this.repeat);
-				alert = this.getRandomPropertyVal(this.alert);
-				notes = this.getRandomString();
+				var title = this.getRandomElement(this.activities),
+					location = this.getRandomElement(this.locations),
+					starts = this.getRandomStartDate(),
+					ends = this.getRandomEndDate(starts),
+					repeat = this.getRandomPropertyVal(this.repeat),
+					alert = this.getRandomPropertyVal(this.alert),
+					notes = this.getRandomString();
 				return new Event({
 					title: title,
 					location: location,
