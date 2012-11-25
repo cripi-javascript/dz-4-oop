@@ -5,7 +5,7 @@ var Collection = (function () {
 		this.items = [];
 		for (item in items) {
 			if (items.hasOwnProperty(item)) {
-				if (items[item].validate()) {
+				if (items[item].validate().valid) {
 					this.items.push(items[item]);
 				}
 			}
@@ -18,9 +18,7 @@ var Collection = (function () {
 	Collection.prototype =
 		{
 			add : function (model) {
-				if (model.validate()) {
-					this.items.push(model);
-				}
+				this.items.push(model);
 			},
 			/**
 			 * Фильтрация коллекции по правилам, определенным в функции selector

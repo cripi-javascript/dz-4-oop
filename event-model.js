@@ -1,56 +1,57 @@
-/*jslint devel: true */
 var Event = (function () {
 	'use strict';
-	function checkStartDate(date) {
+	function checkStartDate(date, validator) {
 		if (date === null) {
 			date = new Date();
 		} else if (!(date instanceof Date && isFinite(date))) {
-			console.log("Start date is invalid, check syntax");
+			validator.addError("startDate", "Start date is invalid, check syntax");
 			date = null;
 		}
 		return date;
 	}
 
-	function checkEndDate(endDate, startDate) {
+	function checkEndDate(endDate, startDate, validator) {
 		var date;
 		if (endDate === null) {
 			date = startDate;
-			date.setHours(startDate.getHours() + 1);
+			if (date !== null) {
+				date.setHours(startDate.getHours() + 1);
+			}
 		} else if (endDate instanceof Date && isFinite(endDate)) {
 			if (endDate < startDate) {
-				console.log("End date should be after start date");
+				validator.addError("endDate", "End date should be after start date");
 				date = null;
 			} else {
 				date = endDate;
 			}
 		} else {
-			console.log("End date is invalid, check syntax");
+			validator.addError("endDate", "End date is invalid, check syntax");
 			date = null;
 		}
 		return date;
 	}
 
-	function checkRepeat(repeat) {
+	function checkRepeat(repeat, validator) {
 		if (repeat === null) {
 			repeat = Const.REPEAT.NEVER;
 		} else if (!(repeat.title && repeat.value)) {
-			console.log("Unknown type of 'repeat' variable");
+			validator.addError("repeat", "Unknown type of 'repeat' variable");
 			repeat = null;
 		} else if (!Utils.checkAddTime(repeat.value)) {
-			console.log("Add time in 'repeat' variable must have format '+ dd.MM.YY hh:mm'");
+			validator.addError("repeat", "Add time in 'repeat' variable must have format '+ dd.MM.YY hh:mm'");
 			repeat = null;
 		}
 		return repeat;
 	}
 
-	function checkAlert(alert) {
+	function checkAlert(alert, validator) {
 		if (alert === null) {
 			alert = Const.ALERT.NONE;
 		} else if (!(alert.title && alert.value)) {
-			console.log("Unknown type of 'alert' variable");
+			validator.addError("alert", "Unknown type of 'alert' variable");
 			alert = null;
 		} else if (!Utils.checkAddTime(alert.value)) {
-			console.log("Add time in 'alert' variable must have format '+ dd.MM.YY hh:mm'");
+			validator.addError("alert", "Add time in 'alert' variable must have format '+ dd.MM.YY hh:mm'");
 			alert = null;
 		}
 		return alert;
@@ -87,26 +88,16 @@ var Event = (function () {
 	/**
 	  * Функция, валидирующая объект Event 
 	  * 
-	  * @return {Event}
+	  * @return {ValidationResult}
 	 */
 	Event.prototype.validate = function () {
-		this.startDate = checkStartDate(this.startDate);
-		if (this.startDate === null) {
-			return;
-		}
-		this.endDate = checkEndDate(this.endDate, this.startDate);
-		if (this.endDate === null) {
-			return;
-		}
-		this.repeat = checkRepeat(this.repeat);
-		if (this.repeat === null) {
-			return;
-		}
-		this.alert = checkAlert(this.alert);
-		if (this.alert === null) {
-			return;
-		}
-		return this;
+		var result = new ValidationResult(true);
+		this.startDate = checkStartDate(this.startDate, result);
+		this.endDate = checkEndDate(this.endDate, this.startDate, result);
+		this.repeat = checkRepeat(this.repeat, result);
+		this.alert = checkAlert(this.alert, result);
+		result.log();
+		return result;
 	};
 	/**
 	 * Вычисляет когда в следующий раз случится периодическое событие
