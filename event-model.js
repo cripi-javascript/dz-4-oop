@@ -1,7 +1,7 @@
 /*jslint devel: true */
 var Event = (function () {
+	'use strict';
 	function checkStartDate(date) {
-		'use strict';
 		if (date === null) {
 			date = new Date();
 		} else if (!(date instanceof Date && isFinite(date))) {
@@ -12,7 +12,6 @@ var Event = (function () {
 	}
 
 	function checkEndDate(endDate, startDate) {
-		'use strict';
 		var date;
 		if (endDate === null) {
 			date = startDate;
@@ -31,25 +30,13 @@ var Event = (function () {
 		return date;
 	}
 
-	function checkAddTime(addTime) {
-		'use strict';
-		var re, splitted;
-		re = "([+-]) (\\d?\\d.\\d?\\d.\\d?\\d) (\\d?\\d:\\d?\\d)";
-		splitted = addTime.match(re);
-		if (splitted === null || splitted.length !== 4) {
-			splitted = null;
-		}
-		return splitted;
-	}
-
 	function checkRepeat(repeat) {
-		'use strict';
 		if (repeat === null) {
 			repeat = Const.REPEAT.NEVER;
 		} else if (!(repeat.title && repeat.value)) {
 			console.log("Unknown type of 'repeat' variable");
 			repeat = null;
-		} else if (!checkAddTime(repeat.value)) {
+		} else if (!Utils.checkAddTime(repeat.value)) {
 			console.log("Add time in 'repeat' variable must have format '+ dd.MM.YY hh:mm'");
 			repeat = null;
 		}
@@ -57,13 +44,12 @@ var Event = (function () {
 	}
 
 	function checkAlert(alert) {
-		'use strict';
 		if (alert === null) {
 			alert = Const.ALERT.NONE;
 		} else if (!(alert.title && alert.value)) {
 			console.log("Unknown type of 'alert' variable");
 			alert = null;
-		} else if (!checkAddTime(alert.value)) {
+		} else if (!Utils.checkAddTime(alert.value)) {
 			console.log("Add time in 'alert' variable must have format '+ dd.MM.YY hh:mm'");
 			alert = null;
 		}
@@ -92,7 +78,6 @@ var Event = (function () {
 	 * @return {Event}
 	 */
 	var Event = function (data) {
-		'use strict';
 		Model.apply(this, arguments);
 	};
 	inherits(Event, Model);
@@ -105,7 +90,6 @@ var Event = (function () {
 	  * @return {Event}
 	 */
 	Event.prototype.validate = function () {
-		'use strict';
 		this.startDate = checkStartDate(this.startDate);
 		if (this.startDate === null) {
 			return;
@@ -130,7 +114,6 @@ var Event = (function () {
 	 * @return {Date}
 	 */
 	Event.prototype.getNextHappenDate = function () {
-		'use strict';
 		var nhd, today;
 		if (!this.nextHappenDate) {
 			today = new Date();
@@ -150,7 +133,6 @@ var Event = (function () {
 	 * @return {Date}
 	 */
 	Event.prototype.getNextAlarmTime = function () {
-		'use strict';
 		var nhd = this.getNextHappenDate();
 		return Utils.addDateTime(nhd, this.alert.value);
 	};
@@ -162,7 +144,6 @@ var Event = (function () {
 	 * @return {Boolean}
 	 */
 	Event.prototype.isAlertTime = function () {
-		'use strict';
 		var today, diff;
 		today = new Date();
 		diff = today - this.getNextAlarmTime();

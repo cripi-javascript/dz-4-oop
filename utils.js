@@ -150,6 +150,16 @@ var Utils = (function () {
 			}
 		};
 
+	function checkAddTime(addTime) {
+		var re, splitted;
+		re = "([+-]) (\\d?\\d.\\d?\\d.\\d?\\d) (\\d?\\d:\\d?\\d)";
+		splitted = addTime.match(re);
+		if (splitted === null || splitted.length !== 4) {
+			splitted = null;
+		}
+		return splitted;
+	}
+
 	/**
 	 * Добавляет к дате кол-во лет, месяцев, дней и т.д определенных в параметре
 	 * Параметр добавления даты должен иметь формат + dd.MM.YY hh:mm
@@ -215,6 +225,9 @@ var Utils = (function () {
 	return {
 		randomEventCollection: function (size) {
 			return new Random(Const).getRandomEventCollection(size);
+		},
+		checkAddTime: function (addTime) {
+			return checkAddTime(addTime);
 		},
 		addDateTime: function (date, dateTimeStr) {
 			return addDateTime(date, dateTimeStr);
