@@ -20,7 +20,7 @@ var ValidationResult = (function () {
 				if (!this.valid) {
 					for (error in this.errors) {
 						if (this.errors.hasOwnProperty(error)) {
-							console.log(error.errorText);
+							console.log(this.errors[error].errorText);
 						}
 					}
 				}
