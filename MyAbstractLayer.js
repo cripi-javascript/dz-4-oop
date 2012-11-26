@@ -156,7 +156,7 @@ Model.prototype.update = function (dict) {
     var errors = this.errors();
     if (errors) {
         console.log('WARNING: rollback update method. validation error: ' + errors);
-        _.update(this.__private_attrs, back); // rollback;
+        _.extend(this.__private_attrs, back); // rollback;
         return false;
     }
 

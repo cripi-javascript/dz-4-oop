@@ -1,4 +1,23 @@
 ﻿
+function isValidDate(d) {
+    if ( Object.prototype.toString.call(d) === "[object Date]" ) {
+        // it is a date
+        if ( isNaN( d.getTime() ) ) {  // d.valueOf() could also work
+            // date is not valid
+            return false;
+        }
+        else {
+            // date is valid
+            return true;
+        }
+    }
+    else {
+        // not a date
+        return false;
+    }
+}
+
+
 /**
  * Модель для класса Event.
  * 
@@ -11,11 +30,24 @@ var Event = new Model({
         go: false
     },
     'constructor': function (info) {
+        if (typeof info.start_time === 'string') {
+            info.start_time = new Date(Date.parse(info.start_time));
+        }
+        if (typeof info.end_time === 'string') {
+            info.end_time = new Date(Date.parse(info.end_time));
+        }
+
         this.update(info);
     },
     'errors': function (name) {
         if (!this.get('start_time') || !this.get('end_time')) {
             return "miss required fields";
+        }
+        if (!isValidDate(this.get('start_time'))) {
+            return "invalid start_time value";
+        }
+        if (!isValidDate(this.get('end_time'))) {
+            return "invalid end_time value";
         }
         if (this.get('start_time') > this.get('end_time')) {
             return "starat_time more then end_time";
@@ -42,7 +74,7 @@ function createNewEvent(start_at, end_at, name, go) {
     var info = {
         start_time: start_at,
         end_time: end_at,
-        name: name
+        title: name
     };
     if (go) {
         info.go = true;
@@ -53,6 +85,5 @@ function createNewEvent(start_at, end_at, name, go) {
 
 
 function ModelTests() {
-    var a = createNewEvent(222, 333, 'lol');
+    var a = createNewEvent(222, 333, 'lol'); // invalid date
 }
-ModelTests();

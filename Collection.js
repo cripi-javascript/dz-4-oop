@@ -66,7 +66,7 @@ function ok(name, val1, val2) {
 }
 
 function Collection_tests() {
-    var a1 = createNewEvent(222, 333, 'lol');
+    var a1 = createNewEvent(222, 333, 'lol'); // invalid date
     var a2 = createNewEvent(223, 333, 'lol2');
     var a3 = createNewEvent(100, 500, 'lol2');
     var events_data = [a1, a2, a3];
@@ -89,4 +89,3 @@ function Collection_tests() {
 
     ok('MY EVENTS filter', some_filtered_event.my_events().size(), 0);
 }
-Collection_tests();
