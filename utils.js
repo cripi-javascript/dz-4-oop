@@ -223,6 +223,9 @@ var Utils = (function () {
 	}
 
 	return {
+		randomEvent: function () {
+			return new Random(Const).getRandomEvent();
+		},
 		randomEventCollection: function (size) {
 			return new Random(Const).getRandomEventCollection(size);
 		},
