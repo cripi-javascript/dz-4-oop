@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<meta charset="utf-8">
+		<title>EVents test</title>
+
+	</head>
+
+	<body>
+
+		<div class="container">
+
+			<input type="button" onclick="console.dir(events.findFutureEvents().findThisWeekEvents());" value = "будущие события недели"/>
+			<input type="button" onclick="console.dir(events.findFutureEvents().findPartyEvents().sortByStartDate());" value = "будущие пьянки, отсортированные по дате"/>
+			<input type="button" onclick="console.dir(events.findFutureEvents().findThisWeekEvents().findNightAlarms().sortByNextHappenDate());" value = "события, которые меня разбудят на этой неделе"/>
+
+		</div>
+
+		<script src="validation.js"></script>
+		<script src="model.js"></script>
+		<script src="collection.js"></script>
+		<script src="event-model.js"></script>
+		<script src="event-collection.js"></script>
+		<script src="utils.js"></script>
+
+	</body>
+</html>
